@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import Channel from './Channel.js';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
-import GroupIcon from 'material-ui/svg-icons/social/group';
+
+import Group from 'material-ui-icons/Group';
 
 class ChannelList extends Component {
 
@@ -24,7 +23,10 @@ class ChannelList extends Component {
         var channelNodes = this.state.channels.map((channel) => {
             return(
                 <List>
-                    <ListItem leftIcon={<GroupIcon />}>
+                    <ListItem>
+                        <ListItemIcon>
+                            {<Group />}
+                        </ListItemIcon>
                         <Channel channel={channel} />
                     </ListItem>
                 </List>
@@ -34,12 +36,8 @@ class ChannelList extends Component {
 
         return (
             <Card>
-                <CardHeader
-                  title="Your Channels"
-                  actAsExpander={true}
-                  showExpandableButton={true}
-                />
-            {channelNodes}
+                <h1>Your Channels</h1>
+                {channelNodes}
             </Card>
 
 

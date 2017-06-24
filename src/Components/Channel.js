@@ -9,9 +9,7 @@ class Channel extends Component {
     render() {
 
         return (
-
-                <div>{this.props.channel}</div>
-
+            <div>{this.props.channel}</div>
         );
     }
 }

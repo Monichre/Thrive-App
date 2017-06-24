@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import Message from './Message.js';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+
+import MessageIcon from 'material-ui-icons/Message';
 
 class MessageList extends Component {
 
@@ -24,9 +25,11 @@ class MessageList extends Component {
             return(
                 <List>
                     <ListItem
-                        leftAvatar={<Avatar src="img/KLP_8320.jpg" />}
-                        rightIcon={<CommunicationChatBubble />}
-                        > <Message message={message} />
+                        leftAvatar={<Avatar src="img/KLP_8320.jpg" />}>
+                        <ListItemIcon>
+                            {<MessageIcon />}
+                        </ListItemIcon>
+                         <Message message={message} />
                     </ListItem>
                 </List>
 
@@ -35,12 +38,8 @@ class MessageList extends Component {
 
         return (
             <Card>
-                <CardHeader
-                  title="Your Chats"
-                  subtitle="Chat History"
-                  actAsExpander={true}
-                  showExpandableButton={true}
-                />
+                <h1>Your Chats</h1>
+                <h2>Chat History</h2>
                 {messageNodes}
             </Card>
 
