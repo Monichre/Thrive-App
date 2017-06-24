@@ -1,32 +1,31 @@
 import React, {Component} from 'react';
-import Message from './Message.js';
+import Channel from './Channel.js';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
+import GroupIcon from 'material-ui/svg-icons/social/group';
 
-class MessageList extends Component {
+class ChannelList extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            messages: [
-                "This is a message"
+            channels: [
+                'Squad', 'Private', 'Class'
             ]
         };
     }
 
     render() {
 
-        var messageNodes = this.state.messages.map((message) => {
+        var channelNodes = this.state.channels.map((channel) => {
             return(
                 <List>
-                    <ListItem
-                        leftAvatar={<Avatar src="img/KLP_8320.jpg" />}
-                        rightIcon={<CommunicationChatBubble />}
-                        > <Message message={message} />
+                    <ListItem leftIcon={<GroupIcon />}>
+                        <Channel channel={channel} />
                     </ListItem>
                 </List>
 
@@ -36,12 +35,11 @@ class MessageList extends Component {
         return (
             <Card>
                 <CardHeader
-                  title="Your Chats"
-                  subtitle="Chat History"
+                  title="Your Channels"
                   actAsExpander={true}
                   showExpandableButton={true}
                 />
-                {messageNodes}
+            {channelNodes}
             </Card>
 
 
@@ -49,4 +47,4 @@ class MessageList extends Component {
     }
 }
 
-export default MessageList;
+export default ChannelList;

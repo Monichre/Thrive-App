@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class Message extends Component {
+class Channel extends Component {
 
     constructor(props){
         super(props);
@@ -10,10 +10,10 @@ class Message extends Component {
 
         return (
 
-                <div>{this.props.message}</div>
+                <div>{this.props.channel}</div>
 
         );
     }
 }
 
-export default Message;
+export default Channel;
