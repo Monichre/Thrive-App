@@ -44,7 +44,9 @@ class Header extends Component {
         }
 
         return (
-            <AppBar position="static">
+            <AppBar position="static"
+                iconElementRight={<MenuIcon/>}
+                >
               <Toolbar>
                 <IconButton color="contrast" aria-label="Menu">
                   <MenuIcon />

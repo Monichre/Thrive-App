@@ -17,6 +17,7 @@ import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import Form from 'material-ui/Form';
+import Grid from 'material-ui/Grid';
 
 
 
@@ -39,6 +40,7 @@ class AddGoal extends Component {
 
     handleRequestClose(){
         this.setState({ open: false });
+        console.log(this.state);
     }
 
     handleOpen(){
@@ -46,25 +48,19 @@ class AddGoal extends Component {
     }
 
     onGoalSubmit(){
-
         console.log("Form Submitted from Add Goal Component");
-        // console.log(this.refs.goal.value);
-        // console.log(this.refs.partner.value);
-        // console.log(this.refs.squad.value);
-        // console.log(this.refs.deadline.value);
-        // console.log(this.refs.description.value);
-
-        this.props.onGoalSubmit();
-
     }
 
     render() {
 
+        var style = {
+            marginTop: '100px',
+            padding: '50px'
+        }
+
         return (
             <div>
-
                 <Button onClick={this.handleOpen.bind(this)}>Add a Goal</Button>
-
                 <Dialog
                   fullScreen
                   open={this.state.open}
@@ -83,49 +79,48 @@ class AddGoal extends Component {
                         </Toolbar>
                     </AppBar>
 
-                    <form onSubmit={this.onGoalSubmit.bind(this)}>
-                          <TextField
-                             id="goal"
-                             label="goal"
-                             value={this.state.goal}
-                             onChange={event => this.setState({ goal: event.target.value })}
-                             defaultValue="foo"
-                             marginForm
-                           />
-                           <TextField
-                             id="partner"
-                             label="partner"
-                             value={this.state.partner}
-                             onChange={event => this.setState({ partner: event.target.value })}
-                             defaultValue="foo"
-                             marginForm
-                           />
-                           <TextField
-                             id="squad"
-                             label="squad"
-                             value={this.state.squad}
-                             onChange={event => this.setState({ squad: event.target.value })}
-                             defaultValue="foo"
-                             marginForm
-                           />
-                           <TextField
-                             id="deadline"
-                             label="deadline"
-                             value={this.state.deadline}
-                             onChange={event => this.setState({ deadline: event.target.value })}
-                             defaultValue="foo"
-                             marginForm
-                           />
-                           <TextField
-                             id="description"
-                             label="description"
-                             value={this.state.description}
-                             onChange={event => this.setState({ description: event.target.value })}
-                             defaultValue="foo"
-                             marginForm
-                           />
-                   </form>
-
+                    <Grid style={style} container justify="center" gutter={24}>
+                        <Grid item xs={12}>
+                            <form onSubmit={this.onGoalSubmit.bind(this)}>
+                                  <TextField
+                                     id="goal"
+                                     label="goal"
+                                     value={this.state.goal}
+                                     onChange={event => this.setState({ goal: event.target.value })}
+                                     marginForm
+                                   />
+                                   <TextField
+                                     id="partner"
+                                     label="partner"
+                                     value={this.state.partner}
+                                     onChange={event => this.setState({ partner: event.target.value })}
+                                     marginForm
+                                   />
+                                   <TextField
+                                     id="squad"
+                                     label="squad"
+                                     value={this.state.squad}
+                                     onChange={event => this.setState({ squad: event.target.value })}
+                                     marginForm
+                                   />
+                                   <TextField
+                                     id="deadline"
+                                     label="deadline"
+                                     value={this.state.deadline}
+                                     onChange={event => this.setState({ deadline: event.target.value })}
+                                     marginForm
+                                   />
+                                   <TextField
+                                     id="description"
+                                     label="description"
+                                     value={this.state.description}
+                                     onChange={event => this.setState({ description: event.target.value })}
+                                     defaultValue="foo"
+                                     marginForm
+                                   />
+                           </form>
+                        </Grid>
+                    </Grid>
                 </Dialog>
             </div>
         );
