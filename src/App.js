@@ -33,7 +33,8 @@ var config = {
     storageBucket: "thrive-app-3a3bc.appspot.com",
     messagingSenderId: "869272160764"
 };
-firebase.initializeApp(config);
+
+Firebase.initializeApp(config);
 
 class App extends Component {
 
@@ -98,7 +99,7 @@ class App extends Component {
         }, function(){
             console.log(userID);
         });
-        firebase.database().ref('/users/').set({
+        Firebase.database().ref('/users/').set({
             idToken: localStorage.getItem('idToken'),
             user: newUser ? newUser : "",
             userID: userID ? userID : "",
@@ -167,8 +168,12 @@ class App extends Component {
                     userGoals={this.state.goals}
                     lock={this.lock}/>
 
-                <Grid container justify="space-around" gutter={24}>
-                    {page}
+                <Grid container>
+                    <Grid item xs={12}>
+                        
+                            {page}
+                        
+                    </Grid>
                 </Grid>
             </div>
         );

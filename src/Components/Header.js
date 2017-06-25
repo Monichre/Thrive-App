@@ -1,5 +1,5 @@
-import React from 'react';
-import Link from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
@@ -12,7 +12,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 
 class Header extends Component {
 
-    constructer(props){
+    constructor(props){
         super(props);
     }
 
@@ -44,7 +44,7 @@ class Header extends Component {
         }
 
         return (
-            <AppBar position="fixed">
+            <AppBar position="static">
               <Toolbar>
                 <IconButton color="contrast" aria-label="Menu">
                   <MenuIcon />
