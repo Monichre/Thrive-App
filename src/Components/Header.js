@@ -36,10 +36,10 @@ class Header extends Component {
         };
 
         if(this.props.loggedIn){
-            authLink = <li><Link to="" onClick={this.onLogoutClick.bind(this)}>Log Out</Link></li>;
-            userName = <li><a>Welcome {this.props.userName} </a></li>;
+            authLink = <Link to="" onClick={this.onLogoutClick.bind(this)}>Log Out</Link>;
+            userName = <span>Welcome {this.props.userName} </span>;
         } else {
-            authLink = <li><Link to="" onClick={this.onLoginClick.bind(this)}>Log In</Link></li>;
+            authLink = <Link to="" onClick={this.onLoginClick.bind(this)}>Log In</Link>;
             userName = '';
         }
 

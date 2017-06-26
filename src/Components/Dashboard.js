@@ -16,9 +16,10 @@ import DashboardIcon from 'material-ui-icons/Dashboard';
 import ListIcon from 'material-ui-icons/List';
 import GroupAddIcon from 'material-ui-icons/GroupAdd';
 import SettingsIcon from 'material-ui-icons/Settings';
-import PhoneIcon from 'material-ui-icons/Phone';
-import FavoriteIcon from 'material-ui-icons/Favorite';
-import PersonPinIcon from 'material-ui-icons/PersonPin';
+
+import Card, { CardHeader, CardActions, CardContent } from 'material-ui/Card';
+import FloatingActionButton from 'material-ui/IconButton';
+import AddIcon from 'material-ui-icons/Add';
 
 
 class Dashboard extends Component {
@@ -47,30 +48,34 @@ class Dashboard extends Component {
                                 index={this.state.index}
                                 onChange={this.handleChange.bind(this)}
                                 textColor="accent" fullWidth>
-                                <Tab icon={<PhoneIcon />}/>
-                                <Tab icon={<FavoriteIcon />}/>
-                                <Tab icon={<PersonPinIcon />}/>
+                                <Tab icon={<DashboardIcon />}/>
+                                <Tab icon={<ScheduleIcon />}/>
+                                <Tab icon={<SettingsIcon />}/>
                             </Tabs>
-
+                            <Card>
+                               <CardActions>
+                                  <AddGoal onGoalSubmit={this.handleAddGoalSubmit()}/>
+                               </CardActions>
+                             </Card>
                         </Paper>;
         var style = {
             marginTop: '100px'
         }
 
         return (
-            <Grid style={style} container justify="center" gutter={24}>
-                <Grid item xs={4}>
-                    Side Bar
+
+                <Grid container gutter={8} style={style}>
+                    <Grid item xs={4}>
+                        {IconTabs}
+                    </Grid>
+                    <Grid item xs={4}>
+                        {IconTabs}
+                    </Grid>
+                    <Grid item xs={4}>
+                        {IconTabs}
+                    </Grid>
                 </Grid>
 
-                <Grid item xs={4}>
-                    {IconTabs}
-                    <AddGoal onGoalSubmit={this.handleAddGoalSubmit()}/>
-                </Grid>
-                <Grid item xs={4}>
-                    Column 3
-                </Grid>
-            </Grid>
         );
     }
 }

@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
+// Firebase
+import Firebase from 'firebase';
+
 
 // Material UI
 import PropTypes from 'prop-types';
@@ -18,7 +21,8 @@ import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import Form from 'material-ui/Form';
 import Grid from 'material-ui/Grid';
-
+import FloatingActionButton from 'material-ui/IconButton';
+import AddIcon from 'material-ui-icons/Add';
 
 
 class AddGoal extends Component {
@@ -35,6 +39,8 @@ class AddGoal extends Component {
             deadline: ''
 
         };
+
+        // this.firebaseRef = new Firebase()
     }
 
 
@@ -42,13 +48,14 @@ class AddGoal extends Component {
         this.setState({ open: false });
         console.log(this.state);
     }
-
+    saveGoal(e){
+        if(e.keyCode === 13) {
+            e.preventDefault;
+            this.handleRequestClose();
+        }
+    }
     handleOpen(){
         this.setState({ open: true });
-    }
-
-    onGoalSubmit(){
-        console.log("Form Submitted from Add Goal Component");
     }
 
     render() {
@@ -60,7 +67,10 @@ class AddGoal extends Component {
 
         return (
             <div>
-                <Button onClick={this.handleOpen.bind(this)}>Add a Goal</Button>
+
+                <FloatingActionButton onClick={this.handleOpen.bind(this)}>
+                  <AddIcon />
+                </FloatingActionButton>
                 <Dialog
                   fullScreen
                   open={this.state.open}
@@ -81,7 +91,7 @@ class AddGoal extends Component {
 
                     <Grid style={style} container justify="center" gutter={24}>
                         <Grid item xs={12}>
-                            <form onSubmit={this.onGoalSubmit.bind(this)}>
+                            <form onKeyUp={this.saveGoal.bind(this)}>
                                   <TextField
                                      id="goal"
                                      label="goal"

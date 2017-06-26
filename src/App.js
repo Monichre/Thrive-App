@@ -42,17 +42,9 @@ class App extends Component {
         super(props);
 
         this.state = {
-            user: {},
-            gender: '',
-            website: '',
-            profilePicture: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            userID: '',
-            idToken: '',
-            gender: '',
-            goals: [],
+            user: {
+
+            },
             loggedIn: false
         }
     }
@@ -78,55 +70,24 @@ class App extends Component {
     }
     storeUser(idToken, profile){
 
-        localStorage.setItem('idToken', idToken);
-        localStorage.setItem('User', JSON.stringify(profile));
-        var newUser = JSON.parse(localStorage.getItem('User'));
-        var userID = newUser.global_client_id;
-
-        this.setState({
-            idToken: localStorage.getItem('idToken'),
-            user: newUser,
-            userID: userID,
-            firstName: newUser.given_name,
-            lastName: newUser.family_name,
-            email: newUser.email,
-            gender: newUser.gender,
-            website: newUser.website,
-            profilePicture: newUser.picture,
-            goals: [],
-            loggedIn: true
-
-        }, function(){
-            console.log(userID);
-        });
-        Firebase.database().ref('/users/').set({
-            idToken: localStorage.getItem('idToken'),
-            user: newUser ? newUser : "",
-            userID: userID ? userID : "",
-            firstName: newUser.given_name ? newUser.given_name : "",
-            lastName: newUser.family_name ? newUser.family_name : "",
-            email: newUser.email ? newUser.email : "",
-            gender: newUser.gender ? newUser.gender : "",
-            website: newUser.website ? newUser.website : "",
-            profilePicture: newUser.picture ? newUser.picture : "",
-            goals: [],
-        });
+        if(idToken){
+            localStorage.setItem('User', JSON.stringify(profile));
+            localStorage.setItem('LoggedIn', true);
+            var newUser = profile;
+            this.setState({
+                user: newUser,
+                loggedIn: true
+            }, function(){
+                console.log(this.state.user);
+            });
+            Firebase.database().ref('/users/').push(newUser);
+        }
     }
     getUser(){
-        if (localStorage.getItem('idToken') != null){
-            var newUser = JSON.parse(localStorage.getItem('User'));
+        if (localStorage.getItem('LoggedIn')){
+            var currentUser = JSON.parse(localStorage.getItem('User'));
             this.setState({
-                idToken: localStorage.getItem('idToken'),
-                user: newUser,
-                userID: newUser.global_client_id,
-                firstName: newUser.given_name,
-                lastName: newUser.family_name,
-                email: newUser.email,
-                gender: newUser.gender,
-                website: newUser.website,
-                profilePicture: newUser.picture,
-                goals: [],
-                loggedIn: true
+                user: currentUser
             }, () => {
                 console.log(this.state);
             });
@@ -138,11 +99,9 @@ class App extends Component {
     logOutUser(){
 
         this.setState({
-            idToken: '',
             user: '',
             loggedIn: false
         }, () => {
-            localStorage.removeItem('idToken');
             localStorage.removeItem('User');
         });
     }
@@ -152,7 +111,7 @@ class App extends Component {
         let page,
             path;
 
-        if(this.state.loggedIn){
+        if(localStorage.getItem('LoggedIn')){
             page = <Dashboard />;
         } else {
             page = <Welcome />;
@@ -164,17 +123,10 @@ class App extends Component {
                     onLoginClick={this.showLock.bind(this)}
                     onLogoutClick={this.logOutUser.bind(this)}
                     loggedIn={this.state.loggedIn}
-                    userName={this.state.firstName}
-                    userGoals={this.state.goals}
+                    userName={this.state.user.given_name}
+                    userGoals={this.state.user.goals}
                     lock={this.lock}/>
-
-                <Grid container>
-                    <Grid item xs={12}>
-                        
-                            {page}
-                        
-                    </Grid>
-                </Grid>
+                {page}
             </div>
         );
     }
