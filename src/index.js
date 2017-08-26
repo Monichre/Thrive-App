@@ -5,11 +5,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+import AppStore from './Stores/AppStore'
 
 ReactDOM.render(
     <BrowserRouter>
-        <MuiThemeProvider>
-            <App />
-        </MuiThemeProvider>
+        <App data={AppStore.data}/>
     </BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();

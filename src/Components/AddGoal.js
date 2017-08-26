@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-// Firebase
-import Firebase from 'firebase';
-
 
 // Material UI
 import PropTypes from 'prop-types';
@@ -51,7 +48,10 @@ class AddGoal extends Component {
     saveGoal(e){
         if(e.keyCode === 13) {
             e.preventDefault;
+			this.props.onGoalSubmit(this.state)
             this.handleRequestClose();
+
+
         }
     }
     handleOpen(){

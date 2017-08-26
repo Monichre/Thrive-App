@@ -1,40 +1,24 @@
 // Default Assets
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, IndexRoute, Link, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, IndexRoute, Link, Switch, Redirect } from 'react-router-dom';
+import routes from './routes'
 
+// Dispatcher
+import AppDispatcher from './Dispatcher/AppDispatcher'
+
+// Store
+import AppStore from './Stores/AppStore'
 
 // Components
-import Header from './Components/Header.js';
-import Welcome from './Components/Welcome.js';
-import Dashboard from './Components/Dashboard.js';
-import MessageList from './Components/MessageList.js';
-import ChannelList from './Components/ChannelList.js';
-import MessageBox from './Components/MessageBox.js';
-
-// Styles
-import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
+import Header from './Components/Header.js'
+import Welcome from './Components/Welcome.js'
+import Dashboard from './Components/Dashboard.js'
 
 // Assets
-import Auth0Lock from 'auth0-lock';
-import Firebase from 'firebase';
 import _ from 'lodash';
+import Firebase from './firebase'
 
-
-
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyBa7AHgeeKObEk0AoNNi8E3AGE7HVIdo0g",
-    authDomain: "thrive-app-3a3bc.firebaseapp.com",
-    databaseURL: "https://thrive-app-3a3bc.firebaseio.com",
-    projectId: "thrive-app-3a3bc",
-    storageBucket: "thrive-app-3a3bc.appspot.com",
-    messagingSenderId: "869272160764"
-};
-
-Firebase.initializeApp(config);
 
 class App extends Component {
 
@@ -43,92 +27,73 @@ class App extends Component {
 
         this.state = {
             user: {
-
             },
+			userGoals: [],
             loggedIn: false
         }
     }
-    static defaultProps = {
-        clientId: "ZsULRd7mfOY8N4dijDo3CmbTto3UDQGW",
-        domain: "monichre.auth0.com"
-    }
+	_onChange(){
+    	this.setState({user: AppStore.data.session_user,
+			loggedIn: true
+		})
+  	}
     componentWillMount(){
-        this.lock = new Auth0Lock(this.props.clientId, this.props.domain);
-        this.lock.on('authenticated', (authResult)=> {
+		console.log(this.state)
+    }
+         // Add change listeners to stores
+	componentDidMount(){
+		AppStore.addChangeListener(this._onChange.bind(this))
+	}
 
-            this.lock.getProfile(authResult.idToken, (error, profile) => {
-                if (error) {
-                    console.log(error);
-                    return;
-                }
-                console.log(authResult);
-                console.log(profile);
-                this.storeUser(authResult.idToken, profile);
-            });
-        });
-        this.getUser();
+	// Remove change listeners from stores
+	componentWillUnmount(){
+		AppStore.removeChangeListener(this._onChange.bind(this))
+	}
+    getUser(user){
+		// const dataBaseRef = Firebase.database().ref('users')
+		// let session_user
+		// let existing_user
+		// let new_user
+		//
+		// dataBaseRef.on('value', (snapshot) => {
+		// 	let users = _.valuesIn(snapshot.val())
+		// 	existing_user = _.find(users, ['email', user.email])
+		// 	console.log(users)
+		// 	console.log(existing_user)
+		// })
+		// if (existing_user) {
+		//
+		// } else {
+		// 	new_user = {
+		// 		name: user.name,
+		// 		profile_picture: user.picture.data.url,
+		// 		email: user.email
+		// 	}
+		// 	dataBaseRef.push(session_user)
+		// }
+		// session_user = existing_user ? existing_user : new_user
+		// this.setState({user: session_user, loggedIn: true})
     }
-    storeUser(idToken, profile){
 
-        if(idToken){
-            localStorage.setItem('User', JSON.stringify(profile));
-            localStorage.setItem('LoggedIn', true);
-            var newUser = profile;
-            this.setState({
-                user: newUser,
-                loggedIn: true
-            }, function(){
-                console.log(this.state.user);
-            });
-            Firebase.database().ref('/users/').push(newUser);
-        }
-    }
-    getUser(){
-        if (localStorage.getItem('LoggedIn')){
-            var currentUser = JSON.parse(localStorage.getItem('User'));
-            this.setState({
-                user: currentUser
-            }, () => {
-                console.log(this.state);
-            });
-        }
-    }
-    showLock(){
-        this.lock.show();
-    }
     logOutUser(){
-
-        this.setState({
-            user: '',
-            loggedIn: false
-        }, () => {
-            localStorage.removeItem('User');
-        });
+        // this.setState({
+        //     user: '',
+        //     loggedIn: false
+        // }, () => {
+        //     localStorage.removeItem('User');
+		// 	localStorage.removeItem('LoggedIn');
+        // });
     }
 
     render() {
 
-        let page,
-            path;
-
-        if(localStorage.getItem('LoggedIn')){
-            page = <Dashboard />;
-        } else {
-            page = <Welcome />;
-        }
-
-        return (
-            <div>
-                <Header
-                    onLoginClick={this.showLock.bind(this)}
-                    onLogoutClick={this.logOutUser.bind(this)}
-                    loggedIn={this.state.loggedIn}
-                    userName={this.state.user.given_name}
-                    userGoals={this.state.user.goals}
-                    lock={this.lock}/>
-                {page}
-            </div>
-        );
+		if (this.state.loggedIn){
+			return(<Dashboard />)
+		} else {
+			return (
+				<Welcome />
+			)
+		}
     }
 }
 
