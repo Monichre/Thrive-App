@@ -67,7 +67,6 @@ class Header extends Component {
 							<span className="icon-bar"></span>
 							<span className="icon-bar"></span>
 						</button>
-						<a className="navbar-brand" href="#">Thrive</a>
 					</div>
 					<div className="collapse navbar-collapse">
 						<ul className="nav navbar-nav navbar-right">
@@ -84,11 +83,10 @@ class Header extends Component {
 									<p className="hidden-lg hidden-md">Notifications</p>
 								</a>
 								<ul className="dropdown-menu">
-									<li><a href="#">Mike John responded to your email</a></li>
-									<li><a href="#">You have 5 new tasks</a></li>
-									<li><a href="#">You're now friend with Andrew</a></li>
-									<li><a href="#">Another Notification</a></li>
-									<li><a href="#">Another One</a></li>
+									<li><a href="#">New Goal Completion</a></li>
+									<li><a href="#">New Goal Added</a></li>
+									<li><a href="#">New Goal Failed</a></li>
+									<li><a href="#">New Goal Completion</a></li>
 								</ul>
 							</li>
 							<li>

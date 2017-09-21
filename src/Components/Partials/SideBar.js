@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 
 
-
-
-
-
 class Sidebar extends Component {
     constructor(props) {
         super(props)
@@ -13,11 +9,30 @@ class Sidebar extends Component {
 
     render() {
 
+		var logoBg = "./img/thrive-logo.png"
+		
         return (
-            <div id="Sidebar">
-                Sidebar
-            </div>
 
+			<div id="SideBar" className="">
+                <header className="sidebar_header">
+                    <h5>Filler Content</h5>
+                </header>
+                
+
+                <section className="sidebar_section">
+                    <h5>Filler Content</h5>
+                </section>
+
+                <section className="sidebar_section">
+                    <h5>Filler Content</h5>
+                </section>
+
+                <section className="sidebar_section">
+                    <h5>Filler Content</h5>
+                </section>
+               
+                
+            </div>
 
         );
     }

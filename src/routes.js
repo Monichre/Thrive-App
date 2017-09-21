@@ -1,33 +1,36 @@
 import React from 'react'
-import {BrowserRouter, Route} from 'react-router-dom'
-
-import AppDispatcher from './Dispatcher/AppDispatcher'
-import AppStore from './Stores/AppStore'
+import {Route} from 'react-router-dom'
 
 import Welcome from './Components/Welcome'
 import Dashboard from './Components/Dashboard'
+import SignUp from './Components/SignUp'
 
 const site_routes = [
 	{
         path: '/',
 		exact: true,
         component: Welcome
-    },
+	},
 	{
-        path: '/callback',
+        path: '/users/dashboard/:user_id',
+        component: Dashboard
+	},
+	{
+        path: '/users/dashboard',
         component: Dashboard
     },
 	{
-        path: '/dashboard/:id',
-        component: Dashboard
+		path: '/signup',
+		exact: true,
+        component: SignUp
     }
 ]
 
 export default (
 	<div>
 		{site_routes.map((route, i) =>(
-			<Route exact path={route.path} render={(props) => (
-				<route.component key={i} data={AppStore.data} {...props} />
+			<Route exact={route.exact} path={route.path} render={(props) => (
+				<route.component key={i} {...props} />
 			)}/>
 		))}
 	</div>

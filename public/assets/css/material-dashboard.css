@@ -607,6 +607,11 @@ h2.title {
   background-color: #00bcd4;
   box-shadow: 0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2);
 }
+.sidebar[data-color="darkBlue"] .nav li.active a,
+.off-canvas-sidebar[data-color="darkBlue"] .nav li.active a {
+  background-color: #00091B;
+  box-shadow: 0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2);
+}
 .sidebar[data-color="green"] .nav li.active a,
 .off-canvas-sidebar[data-color="green"] .nav li.active a {
   background-color: #4caf50;
@@ -3686,8 +3691,8 @@ footer .btn {
 .card .table tr:first-child td {
   border-top: none;
 }
-.card [data-background-color="purple"] {
-  background: linear-gradient(60deg, #ab47bc, #8e24aa);
+.card [data-background-color="darkBlue"] {
+  background: #00091B;
   box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2);
 }
 .card [data-background-color="blue"] {
@@ -3695,15 +3700,17 @@ footer .btn {
   box-shadow: 0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2);
 }
 .card [data-background-color="green"] {
-  background: linear-gradient(60deg, #66bb6a, #43a047);
+  background-image: linear-gradient(60deg, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
   box-shadow: 0 12px 20px -10px rgba(76, 175, 80, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76, 175, 80, 0.2);
 }
-.card [data-background-color="orange"] {
-  background: linear-gradient(60deg, #ffa726, #fb8c00);
+
+.card [data-background-color="purple"] {
+  background-image: linear-gradient(60deg, #ff6e7f 0%, #bfe9ff 51%, #ff6e7f 100%);
   box-shadow: 0 12px 20px -10px rgba(255, 152, 0, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(255, 152, 0, 0.2);
 }
+
 .card [data-background-color="red"] {
-  background: linear-gradient(60deg, #ef5350, #e53935);
+  background-image: linear-gradient(60deg, #1D2B64 0%, #F8CDDA 51%, #1D2B64 100%);
   box-shadow: 0 12px 20px -10px rgba(244, 67, 54, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(244, 67, 54, 0.2);
 }
 .card [data-background-color] {
