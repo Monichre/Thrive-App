@@ -14,11 +14,14 @@ class Sidebar extends Component {
         return (
 
 			<div id="SideBar" className="">
+
                 <header className="sidebar_header">
                     <h5>Filler Content</h5>
                 </header>
-                
-
+                <div className="sidebar_inner">
+                <section className="sidebar_section">
+                    <h5>Filler Content</h5>
+                </section>
                 <section className="sidebar_section">
                     <h5>Filler Content</h5>
                 </section>
@@ -30,8 +33,7 @@ class Sidebar extends Component {
                 <section className="sidebar_section">
                     <h5>Filler Content</h5>
                 </section>
-               
-                
+                </div>
             </div>
 
         );

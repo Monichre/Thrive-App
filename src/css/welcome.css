@@ -321,9 +321,10 @@
 }
 .slogan_text_subheader {
 	color: #32e6ff;
-	font-family: 'Fira Sans Condensed', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 	line-height: initial;
-    font-size: 50px;
+    font-size: 22px;
 }
 .slogan_text_subheader .white_period {
 	color: #fff;

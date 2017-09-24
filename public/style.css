@@ -10,13 +10,13 @@
   background-image: url('./img/dashboard_bg.png');
   background-size: cover;
   background-position: center;
-
-
 }
 #chatBotButton {
 	position: absolute;
 	bottom: 100px;
 	right: 100px;
+	background-color: #212121;
+	color: #fff;
 }
 #SideBar {
 	position: fixed;
@@ -25,11 +25,15 @@
     left: 0;
     width: 25%;
 	z-index: 100;
+	background-color: #fff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
     padding: 20px;
 
+}
+#SideBar section, #SideBar header {
+	height: 20%;
 }
 #SideBar h5 {
 	text-align: center;
@@ -37,7 +41,8 @@
 	text-transform: uppercase;
 }
 .sidebar_header {
-	background-color: rgb(255, 255, 255);
+	background-color: #212121;
+	color: #fff;
 	box-shadow: 0px 40px 50px 0px rgba(0, 0, 0, 0.2);
 
 }

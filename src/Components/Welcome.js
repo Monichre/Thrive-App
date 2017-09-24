@@ -37,7 +37,8 @@ export default class Welcome extends Component {
 				Firebase.auth().onAuthStateChanged(function(user) {
 					console.log(user)
 					if (user) {
-						localStorage.setItem('user', JSON.stringify(user.uid))
+						localStorage.setItem('displayName', user)
+						localStorage.setItem('user_id', JSON.stringify(user.uid))
 						_this.props.history.push(`users/dashboard`);
 					} else {
 					  
@@ -98,18 +99,14 @@ export default class Welcome extends Component {
 	}
 
 	render() {
+			const link_style = {
+				color: '#fff'
+			}
 
 			return (
 				<div className="Welcome">
 					<nav className="navbar navbar-transparent navbar-absolute">
 						<div className="container-fluid">
-							<ul className="nav navbar-nav navbar-left">
-								<li>
-									<Link to='/signup'>Sign Up</Link>
-								</li>
-
-							</ul>
-
 							<div className="collapse navbar-collapse">
 								<ul className="nav navbar-nav navbar-right">
 									<li>
@@ -149,8 +146,12 @@ export default class Welcome extends Component {
 							Delivered <span className="period">.</span>
 						</h1>
 						<h4 className="slogan_text_subheader">
-							<span className="AI">A<span className="white_period"> . </span> I <span className="white_period">.</span></span> <span className="white_period">+</span> Success Psychology
-					</h4>
+							<i>AI meets success psychology</i> <br />
+							<br />
+							<div style={link_style}>
+								<Link to='/signup' style={link_style}>Sign Up</Link>
+							</div>
+						</h4>
 					</div>
 					<div className="logo_container">
 						<div className="coast">

@@ -646,18 +646,13 @@ export default class SignUp extends Component {
       milestone: '',
       commitment_level: '',
       current_emotional_state: '',
-      anticipated_emotional_state: ''
+      anticipated_emotional_state: '',
+      occupation: '',
+      salary: '',
+      number_of_siblings: '',
+      birth_order: ''
     }
     
-  }
-  isUserSignedIn() {
-    Firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log(user)
-      } else {
-        
-      }
-    });
   }
   componentDidMount() {
     window.addEventListener('load', function () {
@@ -672,15 +667,53 @@ export default class SignUp extends Component {
   handleSubmit(e){
     e.preventDefault()
     console.log(e)
-    Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error, callback){
-			// Handle Errors here.
-			const errorCode = error.code
-			const errorMessage = error.message
+    let _this = this
+    Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .catch((error, callback) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
 
-			console.log(errorCode, errorMessage)
-		}, function() {
-      this.isUserSignedIn()
+        console.log(errorCode, errorMessage)
+      })
+      .then((user) =>{
+        console.log(user)
+        this.initializeNewUserGoals(user)
+        .catch((error) => {
+          console.log(error)
+        })
+        .then((response) => {
+          console.log("child route created, redirecting url")
+          _this.props.history.push(`users/dashboard`)
+        })
+      })
+  }
+  initializeNewUserGoals(user){
+    
+    const new_user_key = Firebase.database().ref('users/' + user.uid).set({
+      username: this.state.name,
+      occupation: this.state.occupation,
+      salary: this.state.salary,
+      number_of_siblings: this.state.number_of_siblings,
+      birth_order: this.state.birth_order
     })
+
+    const new_goal_key = Firebase.database().ref('users/' + user.uid).child('goals').push().key
+    const user_goal_info = {}
+    const updates={}
+      user_goal_info.goal = this.state.goal
+      user_goal_info.milestone = this.state.milestone
+      user_goal_info.commitment_level = this.state.commitment_level
+      user_goal_info.current_emotional_state = this.state.current_emotional_state
+      user_goal_info.anticipated_emotional_state = this.state.anticipated_emotional_state
+
+      
+     
+  
+    return Firebase.database().ref('users/' + user.uid + '/goals/' + new_goal_key).set({
+      goal: user_goal_info
+    })
+
   }
   handleName(e) {
     e.preventDefault()
@@ -721,6 +754,22 @@ export default class SignUp extends Component {
     e.preventDefault()
     console.log(e.target.value)
     this.setState({anticipated_emotional_state: e.target.value})
+  }
+  handleSalaryInput(e){
+    e.preventDefault()
+    this.setState({salary: e.target.value})
+  }
+  handleOccupationInput(e){
+    e.preventDefault()
+    this.setState({occupation: e.target.value})
+  }
+  handleSiblingsInput(e){
+    e.preventDefault()
+    this.setState({number_of_siblings: e.target.value})
+  }
+  handleBirthOrderInput(e){
+    e.preventDefault()
+    this.setState({birth_order: e.target.value})
   }
   render() {
     return (
@@ -775,6 +824,22 @@ export default class SignUp extends Component {
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="anticipated_emotional_state">What will this goal help you achieve?</label>
                   <textarea value={this.state.anticipated_emotional_state}  onChange={this.handleAnticipatedEmotionalState.bind(this)} className="fs-anim-lower" id="anticipated_emotional_state" name="anticipated_emotional_state" placeholder="Describe here"></textarea>
+                </li>
+                <li>
+                  <label className="fs-field-label fs-anim-upper" for="salary">Please Enter Your Salary Level</label>
+                  <textarea value={this.state.salary}  onChange={this.handleSalaryInput.bind(this)} className="fs-anim-lower" id="salary" name="salary" placeholder="Roughly speaking"></textarea>
+                </li>
+                <li>
+                  <label className="fs-field-label fs-anim-upper" for="occupation">Please enter your occupation</label>
+                  <textarea value={this.state.occupation}  onChange={this.handleOccupationInput.bind(this)} className="fs-anim-lower" id="occupation" name="occupation" placeholder="Describe here"></textarea>
+                </li>
+                <li>
+                  <label className="fs-field-label fs-anim-upper" for="number_of_siblings">How many siblings do you have?</label>
+                  <textarea value={this.state.number_of_siblings}  onChange={this.handleSiblingsInput.bind(this)} className="fs-anim-lower" id="number_of_siblings" name="number_of_siblings" placeholder="Describe here"></textarea>
+                </li>
+                <li>
+                  <label className="fs-field-label fs-anim-upper" for="birth_order">What is your place in your family's birth order?</label>
+                  <textarea value={this.state.birth_order}  onChange={this.handleBirthOrderInput.bind(this)} className="fs-anim-lower" id="birth_order" name="birth_order" placeholder="Describe here"></textarea>
                 </li>
               </ol>
               <button className="fs-submit" type="submit">Send answers</button>
