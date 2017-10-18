@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classie from 'classie'
+import ThriveBot from '../ChatBot/ThriveBot'
+import SpeechInterface from './SpeechInterface'
 
 
 
-import _ from 'lodash';
+
 import Firebase from '../firebase.js'
 
 
@@ -17,12 +19,7 @@ import Goals from './Partials/Goals'
 
 import '../css/dashboard.css'
 
-const ThriveBot = () => {
 
-
-}
-const annyang = require('annyang')
-const SpeechKITT = require('speechkitt/src/speechkitt')
 
 {/* <Goals goals={this.state.goals} />
 <section id="thrive_bot_section">
@@ -103,47 +100,14 @@ export default class Dashboard extends Component {
     }
     componentDidMount() {
       this.init()
+    
       
-      if (annyang) {
-        
-          // Set annyang in debug mode
-          annyang.debug();
-        
-          // Set annyang language 
-          annyang.setLanguage('en-GB');
-        
-          // Add our commands to annyang
-          annyang.addCommands({
-            'hello': function() {
-              alert('Hello world!');
-            },
-            'show directions': function() {
-              alert('Show directions!');
-            },
-            'call restaurant': function() {
-              alert('Call restaurant!');
-            }
-          });
-        
-        //   // Tell KITT to use annyang
-        //   SpeechKITT.annyang();
-        
-        //   // Define a stylesheet for KITT to use
-        //   SpeechKITT.setStylesheet('//cdnjs.cloudflare.com/ajax/libs/SpeechKITT/0.3.0/themes/flat.css');
-        
-        //   // Add instructional texts
-        //   SpeechKITT.setInstructionsText('Some commands to try…');
-        //   SpeechKITT.setSampleCommands(['Show directions', 'Call restaurant']);
-        
-        //   // If user clicks start button, remember his choice for 1 minute
-        //   SpeechKITT.rememberStatus(1);
-        //   // Render KITT's interface
-        //   SpeechKITT.vroom();
-        }
+     
     }
    
  
     componentWillMount() {
+        
 
         const userId = JSON.parse(localStorage.getItem('user_id'))
         const _this = this
@@ -164,141 +128,7 @@ export default class Dashboard extends Component {
                 })
             })
         }
-        
-       
-        $(function() {
 
-                //--------------------------------------------------------------------------
-                //
-                // Framework
-                //
-                //--------------------------------------------------------------------------
-
-                var points = {
-                    tr: [[0.83, 0], [0.83,0.01], [0.99,0.01], [0.99,0.17], [1,0.17], [1, 0]],
-                    tl: [[0.01, 0.01], [0.17,0.01], [0.17,0], [0,0], [0,0.17], [0.01, 0.17]],
-                    bl: [[0.01, 0.99], [0.01,0.83], [0,0.83], [0,1], [0.17,1], [0.17, 0.99]],
-                    br: [[0.99, 0.99], [0.83,0.99], [0.83,1], [1,1], [1,0.83], [0.99, 0.83]],
-                    cross: [
-                    [0.67, 0.50],
-                    [0.50, 0.50],
-                    [0.50, 0.33],
-                    [0.49, 0.33],
-                    [0.49, 0.50],
-                    [0.33, 0.50],
-                    [0.33, 0.51],
-                    [0.49, 0.51],
-                    [0.49, 0.67],
-                    [0.50, 0.67],
-                    [0.50, 0.51],
-                    [0.67, 0.51]
-                    ]
-                };
-
-                var scalePoint = function (point, scale) {
-                    return _.map(point, function (value) {
-                    return value * scale;
-                    });
-                };
-
-                var makeContext = function (size) {
-                    size = parseFloat(size);
-                    size = _.isNaN(size) ? 100 : size;
-                    var context = {};
-                    context.size = size;
-                    context.points = _.reduce(points, function (scaledPoints, points, property) {
-                    scaledPoints[property] = _.map(points, function (point) {
-                        return scalePoint(point, size);
-                    });
-                    return scaledPoints;
-                    }, {});
-                    return context;
-                };
-
-                var faceMaker = function (position, next) {
-                    return function (template, context, level) {
-                    context = _.extend({}, context, {position: position});
-                    var face = {};
-                    face.next = function (level) {
-                        return next(template, context, level);
-                    };
-                    face.render = function () {
-                        context.bottom = context.size * level;
-                        context.id = face.id();
-                        return template(context);
-                    };
-                    face.id = function () {
-                        return context.position + level;
-                    };
-                    return face;
-                    };
-                };
-
-                var floor = faceMaker('floor', function (t, c, l) { return left(t, c, l) });
-                var left = faceMaker('left', function (t, c, l) { return back(t, c, l) });
-                var back = faceMaker('back', function (t, c, l) { return right(t, c, l) });
-                var right = faceMaker('right', function (t, c, l) { return front(t, c, l) });
-                var front = faceMaker('front', function (t, c, l) { return floor(t, c, l) });
-
-                //--------------------------------------------------------------------------
-                //
-                // App
-                //
-                //--------------------------------------------------------------------------
-
-                var tmpl = _.template($('#face').html()),
-                    $tower = $('#tower'),
-                    $cubes = $('#cubes'),
-                    size = 200,
-                    ctx = makeContext(size),
-                    limit = 40,
-                    count = 0,
-                    level = 0,
-                    levels = [[]],
-                    face = floor(tmpl, ctx, 0),
-                    maxLevels = 4;
-
-                var moveTower = function () {
-                    var distance = size / 5;
-                    var css = 'translateY(' + (distance * count) + 'px)';
-                    $tower.css('transform', css);
-                };
-
-                var cleanupOldLevels = function () {
-                    if (levels.length > maxLevels) {
-                    var first = levels.shift().join(',');
-                    $(first).remove();
-                    }
-                };
-
-                var updateLevels = function () {
-                    var l = Math.floor(count / 5);
-                    if (l !== level) {
-                    level = l;
-                    levels.push([]);
-                    cleanupOldLevels();
-                    }
-                };
-
-                var appendFace = function () {
-                    $cubes.append(face.render());
-                    levels[levels.length - 1].push('#' + face.id());
-                    count ++;
-                    updateLevels();
-                    moveTower();
-                    face = face.next(level);
-                };
-
-                $cubes.bind('webkitAnimationEnd animationend', function () {
-                    appendFace();
-                });
-
-                appendFace();
-                });
-
-    
-  
-  
     }
 
     render() {
@@ -306,9 +136,7 @@ export default class Dashboard extends Component {
             height: '20px',
             width: '20px'
         }
-        const svg_style = {
-            bottom: "<%= bottom %>px"
-        }
+   
 
         return (
             <div id="Dashboard">
@@ -473,37 +301,14 @@ export default class Dashboard extends Component {
                                     <div id="st-trigger-effects" className="dashboard__menu">
                                         <span className="menu__trigger" data-effect="st-effect-12"><img style={icon_style} src="/img/dashboard-f.svg" alt=""/></span>
                                     </div>
+                                    <div className="speechInterface__container">
+                                        <SpeechInterface />
 
-                                    <div id="viewport">
-                                        <div id="tower">
-                                            <div id="cubes"></div>
-                                        </div>
                                     </div>
-                                    <div id="face">
-                                        <svg
-                                            x="0px" y="0px"
-                                            width="<%= size %>px"
-                                            height="<%= size %>px"
-                                            viewBox="0 0 <%= size %> <%= size %>"
-                                            class="face <%= position %>"
-                                            style="bottom: <%= bottom %>px;"
-                                            id="<%= id %>">
-                                            <g class="background">
-                                                <rect width="<%= size %>" height="<%= size %>"/>
-                                            </g>
-                                            <g class="corners">
-                                                <g>
-                                                    <polygon points="<%= points.tr %>"/>
-                                                    <polygon class="tl" points="<%= points.tl %>"/>
-                                                    <polygon points="<%= points.bl %>"/>
-                                                    <polygon points="<%= points.br %>"/>
-                                                </g>
-                                            </g>
-                                            <g class="cross">
-                                                <polygon points="<%= points.cross %>"/>
-                                            </g>
-                                        </svg>
+                                    <div className="chatbot__container">
+                                        <ThriveBot />
                                     </div>
+                              
                                 </div>
                             </div>
                         </div>

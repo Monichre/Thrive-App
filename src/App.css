@@ -5070,3 +5070,23 @@ footer .btn {
     margin-right: -20px;
   }
 }
+
+
+/* ChatBot CSS */
+.chatbot__container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+/* Speech CSS */
+.speechInterface__container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+.listen__active {
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 20px;
+  border: 1px solid lightskyblue;
+}
