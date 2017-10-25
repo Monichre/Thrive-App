@@ -1,4 +1,4 @@
-/*!
+/* !
 
  =========================================================
  * Material Dashboard - v1.1.1.0
@@ -23,6 +23,9 @@
   -ms-touch-action: none;
   user-select: none;
   box-sizing: border-box;
+}
+ul {
+  list-style-type: none!important;
 }
 
 .noUi-base {
@@ -5073,10 +5076,18 @@ footer .btn {
 
 
 /* ChatBot CSS */
+#ThriveBot .I-ChatBot .ActionBar {
+  list-style-type: none;
+}
+#ThriveBot .I-ChatBot .ActionBar .GetStartedButton {
+  background: none;
+}
 .chatbot__container {
   position: fixed;
   bottom: 0;
-  right: 0;
+  right: 100px;
+  border: none!important;
+  box-shadow: none;
 }
 /* Speech CSS */
 .speechInterface__container {

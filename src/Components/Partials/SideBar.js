@@ -1,42 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 
-class Sidebar extends Component {
+export default class Sidebar extends Component {
     constructor(props) {
         super(props)
     }
-
-
     render() {
-
-		var logoBg = "./img/thrive-logo.png"
-		
         return (
-
-			<div id="SideBar" className="">
-
-                <header className="sidebar_header">
-                    <h5>Filler Content</h5>
-                </header>
-                <div className="sidebar_inner">
-                <section className="sidebar_section">
-                    <h5>Filler Content</h5>
-                </section>
-                <section className="sidebar_section">
-                    <h5>Filler Content</h5>
-                </section>
-
-                <section className="sidebar_section">
-                    <h5>Filler Content</h5>
-                </section>
-
-                <section className="sidebar_section">
-                    <h5>Filler Content</h5>
-                </section>
-                </div>
+            <div id="SideBar" className="">
+                <nav className="st-menu st-effect-12" id="menu-12">
+                    <h2 className="icon icon-stack">Thrive</h2>
+                    <ul>
+                        <li><a className="icon icon-data" href="#">Data Management</a></li>
+                        <li><a className="icon icon-location" href="#">Location</a></li>
+                        <li><a className="icon icon-study" href="#">Study</a></li>
+                        <li><a className="icon icon-photo" href="#">Collections</a></li>
+                        <li><a className="icon icon-wallet" href="#">Credits</a></li>
+                    </ul>
+                </nav>
+                <div className="st-pusher"></div>
             </div>
 
-        );
+        )
     }
 }
-export default Sidebar;
+
