@@ -12,6 +12,8 @@ export default class ThriveBot extends Component {
         this.state = {
 
         }
+        // this.intro = this.intro.bind(this)
+        this.noIntro = this.noIntro.bind(this)
 
     }
     componentDidMount() {
@@ -21,15 +23,23 @@ export default class ThriveBot extends Component {
     getStarted() {
         
         return [
-            ChatBotUtil.textMessage([`Welcome, shall we begin?`].any(),
-            ChatBotUtil.makeReplyButton('Yes', this.intro),
+            ChatBotUtil.textMessage([`Welcome, would you like to review your goals?`].any(),
+            ChatBotUtil.makeReplyButton('Yes', () => {
+                return [
+                    ChatBotUtil.textMessage('Then we shall'),
+                    ChatBotUtil.textMessage('Below you can find the initial goal you set up during your onboarding')
+                ]
+            }),
             ChatBotUtil.makeReplyButton('No', this.noIntro))
-        ]
+            ]
+    }
+    callback(args){
+        console.logs(args)
     }
 
     intro() {
         return [
-            ChatBotUtil.textMessage('That\'s good to hear!')
+            ChatBotUtil.textMessage('Then we shall')
         ]
     }
     noIntro() {
@@ -47,6 +57,7 @@ export default class ThriveBot extends Component {
         return (
             <div id="ThriveBot">
                 <ChatBot
+                    callback={() => this.callback.bind(this)}
                     onGetStarted={this.getStarted}
                     getStartedButton={ChatBotUtil.makeGetStartedButton(bot_icon)} />
 
