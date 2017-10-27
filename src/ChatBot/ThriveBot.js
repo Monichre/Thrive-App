@@ -15,70 +15,70 @@ export default class ThriveBot extends Component {
         super(props)
 
         this.state = {
-            name: this.props.firstName
+            user_name: '',
+            goals: [],
+            occupation: '',
+            birth_order: '',
+            number_of_siblings: null
         }
-        // this.intro = this.intro.bind(this)
-        this.noIntro = this.noIntro.bind(this)
-        this.componentWillMount = this.componentWillMount.bind(this)
-
+        
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+        this.setState({
+            user_name: nextProps.user_name,
+            goals: nextProps.goals,
+            occupation: nextProps.occupation,
+            birth_order: nextProps.birth_order,
+            number_of_siblings: nextProps.number_of_siblings
+        })
+    }
+    componentDidUpdate(nextProps){
+        
+        console.log(nextProps)
+    }
+    shouldComponentUpdate(nextProps){
+        return true
     }
     componentDidMount() {
-
-    }
-    componentWillMount() {
-        const userId = JSON.parse(localStorage.getItem('user_id'))
-        let data
-        const _this = this
-
-
-        let user_data = Firebase.database().ref('/users/' + userId)
-
-        user_data.on('value', (snapshot) => {
-            console.log(snapshot.val())
-            data = snapshot.val()
-
-            _this.setState({
-                user_name: data.username,
-                goals: data.goals,
-                occupation: data.occupation,
-                birth_order: data.birth_order,
-                number_of_siblings: data.number_of_siblings
-            })
-        })
         console.log(this.props)
-        console.log(this.state)
     }
     getStarted() {
+        console.log(this)
+        let firstName = this.getUserData.data.user_name.split(' ')[0]
+        firstName = firstName.replace(firstName.charAt(0), firstName.charAt(0).toUpperCase())
+        let occupation = this.getUserData.data.occupation
+        let birth_order = this.getUserData.data.birth_order
+        let family_size = this.getUserData.data.number_of_siblings
+        let goal = this.getUserData.data.goals[0].goal
 
-
-
-
+        
+        
         return [
-            ChatBotUtil.textMessage([`Welcome, would you like to review your goals?`].any(),
+            ChatBotUtil.textMessage([`Welcome ${firstName}, would you like to review your goals?`].any(),
                 ChatBotUtil.makeReplyButton('Yes', () => {
                     return [
                         ChatBotUtil.textMessage('Then we shall'),
-                        ChatBotUtil.textMessage('Below you can find the initial goal you set up during your onboarding')
+                        ChatBotUtil.textMessage('Below you can find the initial goal you set up during your onboarding'),
+                        ChatBotUtil.textMessage(`You mentioned you're the ${birth_order} in a family of ${family_size} and that you are looking to
+                        ${goal}`)
                     ]
                 }),
-                ChatBotUtil.makeReplyButton('No', this.noIntro))
+                ChatBotUtil.makeReplyButton('No', () => {
+                    return [
+                        ChatBotUtil.textMessage('Ok, would you like to add a new goal?')
+                    ]
+                })
+            )
         ]
     }
-    callback(args) {
-        console.logs(args)
+    returnUserData(data){
+        console.log(data)
+        return data
     }
 
-    intro() {
-        return [
-            ChatBotUtil.textMessage('Then we shall')
-        ]
-    }
-    noIntro() {
-        return [
-            ChatBotUtil.textMessage('As you wish, I shall check return in due time')
-        ]
-    }
     render() {
+        const data = this.props
 
         const bubble_style = {
             backgroundColor: '#00091B'
@@ -88,8 +88,9 @@ export default class ThriveBot extends Component {
         return (
             <div id="ThriveBot">
                 <ChatBot
-                    callback={() => this.callback.bind(this)}
+                    getUserData={this.returnUserData(data)}
                     onGetStarted={this.getStarted}
+                    onChange={this.componentDidUpdate}
                     getStartedButton={ChatBotUtil.makeGetStartedButton(bot_icon)} />
 
             </div>

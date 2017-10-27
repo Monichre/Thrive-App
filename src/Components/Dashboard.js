@@ -17,7 +17,7 @@ import Goals from './Partials/Goals'
 
 
 import '../css/dashboard.css'
-const compiler = require('vue-template-compiler')
+
 
 
 {/* <Goals goals={this.state.goals} />
@@ -108,20 +108,27 @@ export default class Dashboard extends Component {
         if (userId) {
 
             let user_data = Firebase.database().ref('/users/' + userId)
-
+            let goal_data = Firebase.database().ref('users/' + userId + '/goals')
+            let goals = []
+            
+            // Goals are stored as child node in the database - access them separately
+            goal_data.on('value', (snapshot) => {
+                snapshot.forEach(childSnap => {
+                    goals.push(childSnap.val().goal)
+                })
+            })
+            
+            // User data is the parent node - access that data here and add the goals from earlier
             user_data.on('value', (snapshot) => {
-                console.log(snapshot.val())
                 data = snapshot.val()
-
                 _this.setState({
                     user_name: data.username,
-                    goals: data.goals,
+                    goals: goals,
                     occupation: data.occupation,
                     birth_order: data.birth_order,
                     number_of_siblings: data.number_of_siblings
                 })
             })
-    
         } else {
             _this.props.history.push(`/`)
         }
@@ -132,9 +139,8 @@ export default class Dashboard extends Component {
             height: '20px',
             width: '20px'
         }
-        let firstName = this.state.user_name.split(' ')[0]
-        firstName = firstName.replace(firstName.charAt(0), firstName.charAt(0).toUpperCase())
-        console.log(firstName)
+       let all_data = this.state
+        
         return (
             <div id="Dashboard">
                 <div id="st-container" className="st-container">
@@ -151,7 +157,7 @@ export default class Dashboard extends Component {
                                         <SpeechInterface />
                                     </div>
                                     <div className="chatbot__container">
-                                        <ThriveBot firstName={firstName}/>
+                                        <ThriveBot data={all_data}/>
                                     </div>  
                                 </div>
                             </div>
