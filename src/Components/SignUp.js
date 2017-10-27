@@ -652,7 +652,7 @@ export default class SignUp extends Component {
       number_of_siblings: '',
       birth_order: ''
     }
-    
+
   }
   componentDidMount() {
     window.addEventListener('load', function () {
@@ -664,32 +664,52 @@ export default class SignUp extends Component {
       });
     }, false)
   }
-  handleSubmit(e){
+  handleSubmit(e) {
     e.preventDefault()
-    console.log(e)
-    let _this = this
-    Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .catch((error, callback) => {
-        // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
 
-        console.log(errorCode, errorMessage)
+    let _this = this
+    Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.SESSION)
+      .then(() => {
+
+        return Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+          .catch((error, callback) => {
+
+            const errorCode = error.code
+            const errorMessage = error.message
+
+            console.log(errorCode, errorMessage)
+          })
+          .then((user) => {
+            console.log(user)
+            this.initializeNewUserGoals(user)
+              .catch((error) => {
+                console.log(error)
+              })
+              .then((response) => {
+                console.log("child route created, redirecting url")
+                _this.props.history.push(`users/dashboard`)
+              })
+          })
       })
-      .then((user) =>{
-        console.log(user)
-        this.initializeNewUserGoals(user)
-        .catch((error) => {
-          console.log(error)
-        })
-        .then((response) => {
-          console.log("child route created, redirecting url")
-          _this.props.history.push(`users/dashboard`)
-        })
+      .catch((error) => {
+
+        var errorCode = error.code;
+        var errorMessage = error.message;
       })
+
   }
-  initializeNewUserGoals(user){
-    
+  initializeNewUserGoals(user) {
+
+    var user = Firebase.auth().currentUser
+
+    user.updateProfile({
+      displayName: this.state.name,
+    }).then((response) => {
+      console.log(response)
+    }, (error) => {
+      console.log(error)
+    });
+
     const new_user_key = Firebase.database().ref('users/' + user.uid).set({
       username: this.state.name,
       occupation: this.state.occupation,
@@ -700,16 +720,16 @@ export default class SignUp extends Component {
 
     const new_goal_key = Firebase.database().ref('users/' + user.uid).child('goals').push().key
     const user_goal_info = {}
-    const updates={}
-      user_goal_info.goal = this.state.goal
-      user_goal_info.milestone = this.state.milestone
-      user_goal_info.commitment_level = this.state.commitment_level
-      user_goal_info.current_emotional_state = this.state.current_emotional_state
-      user_goal_info.anticipated_emotional_state = this.state.anticipated_emotional_state
+    const updates = {}
+    user_goal_info.goal = this.state.goal
+    user_goal_info.milestone = this.state.milestone
+    user_goal_info.commitment_level = this.state.commitment_level
+    user_goal_info.current_emotional_state = this.state.current_emotional_state
+    user_goal_info.anticipated_emotional_state = this.state.anticipated_emotional_state
 
-      
-     
-  
+
+
+
     return Firebase.database().ref('users/' + user.uid + '/goals/' + new_goal_key).set({
       goal: user_goal_info
     })
@@ -718,58 +738,58 @@ export default class SignUp extends Component {
   handleName(e) {
     e.preventDefault()
     console.log(e.target.value)
-    this.setState({name: e.target.value})
+    this.setState({ name: e.target.value })
   }
   handleEmail(e) {
     e.preventDefault()
     console.log(e.target.value)
-    this.setState({email: e.target.value})
+    this.setState({ email: e.target.value })
   }
   handlePassword(e) {
     e.preventDefault()
     console.log(e.target.value)
-    this.setState({password: e.target.value})
+    this.setState({ password: e.target.value })
   }
   handleGoal(e) {
     e.preventDefault()
     console.log(e.target.value)
-    this.setState({goal: e.target.value})
+    this.setState({ goal: e.target.value })
   }
   handleMilestone(e) {
     e.preventDefault()
     console.log(e.target)
-    this.setState({milestone: e.target.value})
+    this.setState({ milestone: e.target.value })
   }
   handleCommitmentLevel(e) {
     e.preventDefault()
     console.log(e.target)
-    this.setState({commitment: e.target.value})
+    this.setState({ commitment: e.target.value })
   }
   handleCurrentEmotionalState(e) {
     e.preventDefault()
     console.log(e.target.value)
-    this.setState({current_emotional_state: e.target.value})
+    this.setState({ current_emotional_state: e.target.value })
   }
   handleAnticipatedEmotionalState(e) {
     e.preventDefault()
     console.log(e.target.value)
-    this.setState({anticipated_emotional_state: e.target.value})
+    this.setState({ anticipated_emotional_state: e.target.value })
   }
-  handleSalaryInput(e){
+  handleSalaryInput(e) {
     e.preventDefault()
-    this.setState({salary: e.target.value})
+    this.setState({ salary: e.target.value })
   }
-  handleOccupationInput(e){
+  handleOccupationInput(e) {
     e.preventDefault()
-    this.setState({occupation: e.target.value})
+    this.setState({ occupation: e.target.value })
   }
-  handleSiblingsInput(e){
+  handleSiblingsInput(e) {
     e.preventDefault()
-    this.setState({number_of_siblings: e.target.value})
+    this.setState({ number_of_siblings: e.target.value })
   }
-  handleBirthOrderInput(e){
+  handleBirthOrderInput(e) {
     e.preventDefault()
-    this.setState({birth_order: e.target.value})
+    this.setState({ birth_order: e.target.value })
   }
   render() {
     return (
@@ -787,19 +807,19 @@ export default class SignUp extends Component {
                   </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="name">What's your name?</label>
-                  <input value={this.state.name}  onChange={this.handleName.bind(this)} className="fs-anim-lower" id="name" name="name" type="text" placeholder="Dean Moriarty" required />
+                  <input value={this.state.name} onChange={this.handleName.bind(this)} className="fs-anim-lower" id="name" name="name" type="text" placeholder="Dean Moriarty" required />
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="email" data-info="We won't send you spam, we promise...">What's your email address?</label>
-                  <input value={this.state.email}  onChange={this.handleEmail.bind(this)} className="fs-anim-lower" id="email" name="email" type="email" placeholder="dean@road.us" required />
+                  <input value={this.state.email} onChange={this.handleEmail.bind(this)} className="fs-anim-lower" id="email" name="email" type="email" placeholder="dean@road.us" required />
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="password" data-info="We won't send you spam, we promise...">Enter your password</label>
-                  <input value={this.state.password}  onChange={this.handlePassword.bind(this)} className="fs-anim-lower" id="password" name="password" type="password" placeholder="dean@road.us" required />
+                  <input value={this.state.password} onChange={this.handlePassword.bind(this)} className="fs-anim-lower" id="password" name="password" type="password" placeholder="dean@road.us" required />
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="goal" data-info="Aim high dear friend..">Describe your goal</label>
-                  <textarea value={this.state.goal}  onChange={this.handleGoal.bind(this)} className="fs-anim-lower" id="goal" name="goal" placeholder="Describe your goal here"></textarea>
+                  <textarea value={this.state.goal} onChange={this.handleGoal.bind(this)} className="fs-anim-lower" id="goal" name="goal" placeholder="Describe your goal here"></textarea>
                 </li>
                 <li data-input-trigger>
                   <label className="fs-field-label fs-anim-upper" for="q3" data-info="Our research shows digestible milestones for a larger goal yield a 30% higher rate of satisfaction">Select a progress timeline you're comfortable with</label>
@@ -813,33 +833,33 @@ export default class SignUp extends Component {
                   <label className="fs-field-label fs-anim-upper" data-info="We'll make sure to use it all over">Select your commitment level</label>
                   <div className="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
                     <span><input id="q3b" name="q3" type="radio" onClick={this.handleCommitmentLevel.bind(this)} value='low' /><label for="q3b" className="radio-conversion ">Meh</label></span>
-                      <span><input id="q3c" name="q3" type="radio" onClick={this.handleCommitmentLevel.bind(this)} value='medium' /><label for="q3c" className="radio-social ">Kinda</label></span>
-                      <span><input id="q3a" name="q3" type="radio" onClick={this.handleCommitmentLevel.bind(this)} value='high'/><label for="q3a" className="radio-mobile ">Fuck yea</label></span>
+                    <span><input id="q3c" name="q3" type="radio" onClick={this.handleCommitmentLevel.bind(this)} value='medium' /><label for="q3c" className="radio-social ">Kinda</label></span>
+                    <span><input id="q3a" name="q3" type="radio" onClick={this.handleCommitmentLevel.bind(this)} value='high' /><label for="q3a" className="radio-mobile ">Fuck yea</label></span>
                   </div>
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="current_emotional_state">Describe how you feel about your relationship to this goal currently</label>
-                  <textarea value={this.state.current_emotional_state}  onChange={this.handleCurrentEmotionalState.bind(this)} className="fs-anim-lower" id="current_emotional_state" name="current_emotional_state" placeholder="Describe here"></textarea>
+                  <textarea value={this.state.current_emotional_state} onChange={this.handleCurrentEmotionalState.bind(this)} className="fs-anim-lower" id="current_emotional_state" name="current_emotional_state" placeholder="Describe here"></textarea>
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="anticipated_emotional_state">What will this goal help you achieve?</label>
-                  <textarea value={this.state.anticipated_emotional_state}  onChange={this.handleAnticipatedEmotionalState.bind(this)} className="fs-anim-lower" id="anticipated_emotional_state" name="anticipated_emotional_state" placeholder="Describe here"></textarea>
+                  <textarea value={this.state.anticipated_emotional_state} onChange={this.handleAnticipatedEmotionalState.bind(this)} className="fs-anim-lower" id="anticipated_emotional_state" name="anticipated_emotional_state" placeholder="Describe here"></textarea>
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="salary">Please Enter Your Salary Level</label>
-                  <textarea value={this.state.salary}  onChange={this.handleSalaryInput.bind(this)} className="fs-anim-lower" id="salary" name="salary" placeholder="Roughly speaking"></textarea>
+                  <textarea value={this.state.salary} onChange={this.handleSalaryInput.bind(this)} className="fs-anim-lower" id="salary" name="salary" placeholder="Roughly speaking"></textarea>
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="occupation">Please enter your occupation</label>
-                  <textarea value={this.state.occupation}  onChange={this.handleOccupationInput.bind(this)} className="fs-anim-lower" id="occupation" name="occupation" placeholder="Describe here"></textarea>
+                  <textarea value={this.state.occupation} onChange={this.handleOccupationInput.bind(this)} className="fs-anim-lower" id="occupation" name="occupation" placeholder="Describe here"></textarea>
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="number_of_siblings">How many siblings do you have?</label>
-                  <textarea value={this.state.number_of_siblings}  onChange={this.handleSiblingsInput.bind(this)} className="fs-anim-lower" id="number_of_siblings" name="number_of_siblings" placeholder="Describe here"></textarea>
+                  <textarea value={this.state.number_of_siblings} onChange={this.handleSiblingsInput.bind(this)} className="fs-anim-lower" id="number_of_siblings" name="number_of_siblings" placeholder="Describe here"></textarea>
                 </li>
                 <li>
                   <label className="fs-field-label fs-anim-upper" for="birth_order">What is your place in your family's birth order?</label>
-                  <textarea value={this.state.birth_order}  onChange={this.handleBirthOrderInput.bind(this)} className="fs-anim-lower" id="birth_order" name="birth_order" placeholder="Describe here"></textarea>
+                  <textarea value={this.state.birth_order} onChange={this.handleBirthOrderInput.bind(this)} className="fs-anim-lower" id="birth_order" name="birth_order" placeholder="Describe here"></textarea>
                 </li>
               </ol>
               <button className="fs-submit" type="submit">Send answers</button>

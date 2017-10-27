@@ -97,39 +97,34 @@ export default class Dashboard extends Component {
     handleAddGoalSubmit(goal) {
         console.log(goal);
         // Firebase.database().ref('/users/' + this.props.user.clientID + '/goals/').push(goal);
-        console.log("AddGoal Handling submitted to Firebase");
+        
     }
     componentDidMount() {
         this.init()
 
-
-
-    }
-
-
-    componentWillMount() {
-
-
         const userId = JSON.parse(localStorage.getItem('user_id'))
+        let data
         const _this = this
         if (userId) {
 
-            Firebase.database().ref('/users/' + userId).once('value').then(function (snapshot) {
-                let data = snapshot.val()
-                let current_goals = Object.values(data.goals).map(item => item.goal)
-                console.log(current_goals)
+            let user_data = Firebase.database().ref('/users/' + userId)
+
+            user_data.on('value', (snapshot) => {
+                console.log(snapshot.val())
+                data = snapshot.val()
+
                 _this.setState({
                     user_name: data.username,
+                    goals: data.goals,
                     occupation: data.occupation,
-                    goals: current_goals,
                     birth_order: data.birth_order,
                     number_of_siblings: data.number_of_siblings
-                }, () => {
-                    console.log(_this.state)
                 })
             })
+    
+        } else {
+            _this.props.history.push(`/`)
         }
-
     }
 
     render() {
@@ -137,12 +132,9 @@ export default class Dashboard extends Component {
             height: '20px',
             width: '20px'
         }
-        
-
         let firstName = this.state.user_name.split(' ')[0]
         firstName = firstName.replace(firstName.charAt(0), firstName.charAt(0).toUpperCase())
-
-
+        console.log(firstName)
         return (
             <div id="Dashboard">
                 <div id="st-container" className="st-container">
@@ -159,7 +151,7 @@ export default class Dashboard extends Component {
                                         <SpeechInterface />
                                     </div>
                                     <div className="chatbot__container">
-                                    <ThriveBot firstName={firstName}/>
+                                        <ThriveBot firstName={firstName}/>
                                     </div>  
                                 </div>
                             </div>

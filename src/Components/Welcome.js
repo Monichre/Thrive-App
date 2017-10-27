@@ -37,7 +37,7 @@ export default class Welcome extends Component {
 				Firebase.auth().onAuthStateChanged(function(user) {
 					console.log(user)
 					if (user) {
-						localStorage.setItem('displayName', user)
+						localStorage.setItem('displayName', user.displayName)
 						localStorage.setItem('user_id', JSON.stringify(user.uid))
 						_this.props.history.push(`users/dashboard`);
 					} else {

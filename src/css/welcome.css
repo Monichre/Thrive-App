@@ -380,7 +380,7 @@
 	border-left-width: 0;
 }
 #btn-search {
-  background: transparent!important;
+  background: rgba(18, 23, 56, 0.9)!important;
 }
 .btn--search-close {
 	font-size: 2em;
@@ -400,7 +400,7 @@
 
 .search__input {
 	font-family: inherit;
-	font-size: 10vw;
+	font-size: 7vw;
 	line-height: 1;
 	display: inline-block;
 	box-sizing: border-box;
@@ -412,20 +412,23 @@
 
 .search__input::-webkit-input-placeholder {
 	/* WebKit, Blink, Edge */
-	opacity: 0.3;
+  opacity: 0.3;
+  background-color: none!important;
 	color: #060919;
 }
 
 .search__input::-moz-placeholder {
 	opacity: 0.3;
 	/* Mozilla Firefox 19+ */
-	color: #060919;
+  color: #060919;
+  background-color: none!important;
 }
 
 .search__input:-ms-input-placeholder {
 	/* Internet Explorer 10-11 */
 	opacity: 0.3;
-	color: #060919;
+  color: #060919;
+  background-color: none!important;
 }
 
 .search__input::-webkit-search-cancel-button,
