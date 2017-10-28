@@ -30,13 +30,14 @@
 }
 
 .logo_container {
-  position: absolute;
-  /*width: 17rem;*/
-  /*height: 10rem;*/
-      left: 70%;
-    top: 70%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  position: fixed;
+  /* width: 17rem; */
+  /* height: 10rem; */
+  left: 100px;
+  top: 75px;
+  /* -webkit-transform: translate(-50%, -50%); */
+  /* transform: translate(-50%, -50%); */
+  /* transform: translate(-50%, -50%); */
 }
 
 .text {
@@ -343,7 +344,8 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	text-align: center;
+  text-align: center;
+  height: 100%;
 	background: rgba(18, 23, 56, 0.9);
 }
 
@@ -395,7 +397,7 @@
 }
 
 .search__form {
-	margin: 5em 0;
+	margin-top: 100px;
 }
 
 .search__input {

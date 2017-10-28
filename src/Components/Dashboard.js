@@ -121,6 +121,7 @@ export default class Dashboard extends Component {
             // User data is the parent node - access that data here and add the goals from earlier
             user_data.on('value', (snapshot) => {
                 data = snapshot.val()
+                console.log(data)
                 _this.setState({
                     user_name: data.username,
                     goals: goals,

@@ -102,6 +102,7 @@ export default class Welcome extends Component {
 			const link_style = {
 				color: '#fff'
 			}
+			
 
 			return (
 				<div className="Welcome">
@@ -137,7 +138,7 @@ export default class Welcome extends Component {
 							<input onChange={this.handleEmail.bind(this)} value={this.state.email} className="search__input" name="email" type="email" placeholder="Email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required/>
 							<input onChange={this.handlePassword.bind(this)} value={this.state.password} className="search__input" name="password" type="password" placeholder="Password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required/>
 							<span className="search__info">Hit enter to login or ESC to close</span>
-							<button type="submit">Send</button>
+							 <button className="btn" type="submit">Send</button>
 						</form>
 					</div>
 					<div className="slogan">

@@ -664,9 +664,18 @@ export default class SignUp extends Component {
       });
     }, false)
   }
+  sendVerificationEmail() {
+    let user = Firebase.auth().currentUser;
+
+    user.sendEmailVerification().then(() => {
+      console.log('email sent')
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
+
   handleSubmit(e) {
     e.preventDefault()
-
     let _this = this
     Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.SESSION)
       .then(() => {
@@ -681,6 +690,8 @@ export default class SignUp extends Component {
           })
           .then((user) => {
             console.log(user)
+            localStorage.setItem('user_id', JSON.stringify(user.uid))
+            this.sendVerificationEmail()
             this.initializeNewUserGoals(user)
               .catch((error) => {
                 console.log(error)
