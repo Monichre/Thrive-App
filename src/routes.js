@@ -3,7 +3,8 @@ import {Route} from 'react-router-dom'
 
 import Welcome from './Components/Welcome'
 import Dashboard from './Components/Dashboard'
-import SignUp from './Components/SignUp'
+import SignUp from './Components/Authorization/SignUp'
+import Verification from './Components/Authorization/Verification'
 
 const site_routes = [
 	{
@@ -23,6 +24,11 @@ const site_routes = [
 		path: '/signup',
 		exact: true,
         component: SignUp
+	},
+	{
+		path: '/verify',
+		exact: true,
+        component: Verification
     }
 ]
 

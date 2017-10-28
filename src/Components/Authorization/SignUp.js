@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import '../css/signup.css'
-import Firebase from '../firebase'
+import '../../css/signup.css'
+import Firebase from '../../firebase'
 
 import classie from 'classie'
 import SelectFX from 'periodicjs.component.selectfx'

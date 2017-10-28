@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect, BrowserHistory } from 'react-router-dom'
 import '../css/welcome.css'
 import Firebase from '../firebase'
-import { browserHistory } from 'react-router';
+
 
 export default class Welcome extends Component {
 
