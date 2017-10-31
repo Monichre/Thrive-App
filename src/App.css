@@ -5277,3 +5277,19 @@ footer .btn {
   padding: 20px;
   border: 1px solid lightskyblue;
 }
+
+/* SHADER */
+canvas {
+  padding:0;
+  margin:0;
+}
+div.btnbg {
+  position:fixed;
+  left:0;
+  top:0;
+  box-shadow: 0px 0px 15px #ccc;
+}
+div.btnbg:hover{
+  text-shadow: 0px 0px 3px #ccc;
+  box-shadow: 0px 0px 20px #ccc;
+}

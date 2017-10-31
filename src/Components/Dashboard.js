@@ -11,6 +11,7 @@ import Firebase from '../firebase.js'
 
 import Header from './Header.js'
 import SideBar from './Partials/SideBar.js'
+import Shader from './Partials/Shader.js'
 import AddGoal from './AddGoal.js'
 import Goals from './Partials/Goals'
 
