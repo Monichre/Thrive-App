@@ -7,15 +7,44 @@ const options = {
 
 
 class SpeechInterface extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isListening: false,
+            userMessage: '',
+            persisIsLaunched: false
+        }
+    }
         componentDidMount() {
-            console.log(this.props.transcript)
+  
+        }
+        componentWillMount() {
+            console.log(this.props)
+        }
+        componentDidUpdate(nextProps){
+            console.log(nextProps)
+            if (nextProps.transcript === "persis launch" || nextProps.transcript === "purses launch") {
+                this.props.summonPersis(true)
+                this.props.stopListening()
+            }
+
+        }
+        componentWillUpdate(nextProps) {
+            console.log(nextProps)
+        }
+        handleUserVoiceInput(input) {
+            console.log(input)
+            
         }
         displayActiveListen(){
             document.getElementById('mic__container').classList.add('listen__active')
+            this.setState({isListening: true})
             this.props.startListening()
+
             console.log(this.props.listening)
-            console.log(this.props.interimTranscript)
             console.log(this.props.transcript)
+
         }
         render() {
             const { transcript, startListening, browserSupportsSpeechRecognition, stopListening, listening, interimTranscript } = this.props
@@ -29,7 +58,7 @@ class SpeechInterface extends Component {
                 return null
             }
             if (listening){
-                console.log(interimTranscript)
+                
                 
                 
             }

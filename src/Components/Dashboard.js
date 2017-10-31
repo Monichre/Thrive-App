@@ -1,22 +1,13 @@
 import React, { Component } from 'react'
-
-
-
 import classie from 'classie'
 import SpeechInterface from './SpeechInterface'
 import ThriveBot from '../ChatBot/ThriveBot'
 import Firebase from '../firebase.js'
-
-
-
 import Header from './Header.js'
 import SideBar from './Partials/SideBar.js'
-import Shader from './Partials/Shader.js'
+import Particle from './Partials/Particle.js'
 import AddGoal from './AddGoal.js'
 import Goals from './Partials/Goals'
-
-
-
 import '../css/dashboard.css'
 
 
@@ -50,7 +41,8 @@ export default class Dashboard extends Component {
             goals: [],
             occupation: '',
             birth_order: '',
-            number_of_siblings: null
+            number_of_siblings: null,
+            launchPersisChat: false
         }
     }
 
@@ -106,8 +98,8 @@ export default class Dashboard extends Component {
         const userId = JSON.parse(localStorage.getItem('user_id'))
         let data
         const _this = this
-        if (userId) {
 
+        if (userId) {
             let user_data = Firebase.database().ref('/users/' + userId)
             let goal_data = Firebase.database().ref('users/' + userId + '/goals')
             let goals = []
@@ -135,6 +127,16 @@ export default class Dashboard extends Component {
             _this.props.history.push(`/`)
         }
     }
+    launchPersisChat() {
+
+    }
+    handlePersisSummons() {
+        if(true) {
+            console.log(true + ' Persis has been summoned')
+            this.setState({launchPersisChat: true})
+        }
+        
+    }
 
     render() {
         const icon_style = {
@@ -142,24 +144,24 @@ export default class Dashboard extends Component {
             width: '20px'
         }
        let all_data = this.state
+       const launchPersis = this.state.launchPersisChat
         
         return (
             <div id="Dashboard">
                 <div id="st-container" className="st-container">
                     <SideBar />
-                    
                         <div className="st-content">
+                            <Particle />
                             <div className="st-content-inner">
-
                                 <div className="main clearfix">
                                     <div id="st-trigger-effects" className="dashboard__menu">
                                         <span className="menu__trigger" data-effect="st-effect-12"><img style={icon_style} src="/img/dashboard-f.svg" alt="" /></span>
                                     </div>
                                     <div className="speechInterface__container">
-                                        <SpeechInterface />
+                                        <SpeechInterface summonPersis={this.handlePersisSummons.bind(this)}/>
                                     </div>
                                     <div className="chatbot__container">
-                                        <ThriveBot data={all_data}/>
+                                        <ThriveBot data={all_data} launchPersis={launchPersis}/>
                                     </div>  
                                 </div>
                             </div>

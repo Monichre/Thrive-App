@@ -14,26 +14,27 @@ body,
 .st-content {
 	height: 100%;
 }
+
 #Dashboard {
 	height: 100vh;
-	
-	
 }
+
 .dashboard__menu {
 	position: absolute;
-	top: 20px; right: 20px;
+	top: 20px;
+	right: 20px;
 }
 
 .st-content {
 	overflow-y: scroll;
 	background-color: #a0ccf9;
 	background-image: linear-gradient(62deg, #a0ccf9 0%, #ece6f3 100%);
-	
 }
-canvas{
+
+canvas {
 	width: 100%;
 	height: 100%;
-  }
+}
 
 .st-content,
 .st-content-inner {
@@ -60,7 +61,7 @@ canvas{
 	right: 0;
 	width: 0;
 	height: 0;
-	background: rgba(0,0,0,0.2);
+	background: rgba(0, 0, 0, 0.2);
 	content: '';
 	opacity: 0;
 	-webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
@@ -94,7 +95,7 @@ canvas{
 	right: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0,0,0,0.2);
+	background: rgba(0, 0, 0, 0.2);
 	content: '';
 	opacity: 1;
 	-webkit-transition: opacity 0.5s;
@@ -109,6 +110,7 @@ canvas{
 	transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
 }
 
+
 /* content style */
 
 .st-menu ul {
@@ -120,8 +122,8 @@ canvas{
 .st-menu h2 {
 	margin: 0;
 	padding: 1em;
-	color: rgba(0,0,0,0.4);
-	text-shadow: 0 0 1px rgba(0,0,0,0.1);
+	color: rgba(0, 0, 0, 0.4);
+	text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
 	font-weight: 300;
 	font-size: 2em;
 }
@@ -130,10 +132,10 @@ canvas{
 	display: block;
 	padding: 1em 1em 1em 1.2em;
 	outline: none;
-	box-shadow: inset 0 -1px rgba(0,0,0,0.2);
+	box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
 	color: #f3efe0;
 	text-transform: uppercase;
-	text-shadow: 0 0 1px rgba(255,255,255,0.1);
+	text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
 	letter-spacing: 1px;
 	font-weight: 400;
 	-webkit-transition: background 0.3s, box-shadow 0.3s;
@@ -141,18 +143,21 @@ canvas{
 }
 
 .st-menu ul li:first-child a {
-	box-shadow: inset 0 -1px rgba(0,0,0,0.2), inset 0 1px rgba(0,0,0,0.2);
+	box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2), inset 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .st-menu ul li a:hover {
-	background: rgba(0,0,0,0.2);
-	box-shadow: inset 0 -1px rgba(0,0,0,0);
+	background: rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 -1px rgba(0, 0, 0, 0);
 	color: #fff;
 }
 
+
 /* Individual effects */
 
+
 /* Effect 1: Slide in on top */
+
 .st-effect-1.st-menu {
 	visibility: visible;
 	-webkit-transform: translate3d(-100%, 0, 0);
@@ -169,7 +174,9 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 2: Reveal */
+
 .st-effect-2.st-menu-open .st-pusher {
 	-webkit-transform: translate3d(300px, 0, 0);
 	transform: translate3d(300px, 0, 0);
@@ -189,7 +196,9 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 3: Push*/
+
 .st-effect-3.st-menu-open .st-pusher {
 	-webkit-transform: translate3d(300px, 0, 0);
 	transform: translate3d(300px, 0, 0);
@@ -210,7 +219,9 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 4: Slide along */
+
 .st-effect-4.st-menu-open .st-pusher {
 	-webkit-transform: translate3d(300px, 0, 0);
 	transform: translate3d(300px, 0, 0);
@@ -234,7 +245,9 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 5: Reverse slide out */
+
 .st-effect-5.st-menu-open .st-pusher {
 	-webkit-transform: translate3d(300px, 0, 0);
 	transform: translate3d(300px, 0, 0);
@@ -253,6 +266,7 @@ canvas{
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
 }
+
 
 /* Effect 6: Rotate pusher */
 
@@ -294,6 +308,7 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 7: 3D rotate in */
 
 .st-effect-7.st-container {
@@ -329,6 +344,7 @@ canvas{
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(0deg);
 	transform: translate3d(-100%, 0, 0) rotateY(0deg);
 }
+
 
 /* Effect 8: 3D rotate out */
 
@@ -370,6 +386,7 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 9: Scale down pusher */
 
 .st-effect-9.st-container {
@@ -405,6 +422,7 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 10: Scale up */
 
 .st-effect-10.st-container {
@@ -433,6 +451,7 @@ canvas{
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
 }
+
 
 /* Effect 11: Scale and rotate pusher */
 
@@ -468,6 +487,7 @@ canvas{
 .st-effect-11.st-menu::after {
 	display: none;
 }
+
 
 /* Effect 12: Open door */
 
@@ -506,6 +526,7 @@ canvas{
 	display: none;
 }
 
+
 /* Effect 13: Fall down */
 
 .st-effect-13.st-container {
@@ -538,6 +559,7 @@ canvas{
 	-webkit-transition-speed: 0.2s;
 	transition-speed: 0.2s;
 }
+
 
 /* Effect 14: Delayed 3D rotate */
 
@@ -579,14 +601,15 @@ canvas{
 	transform: translate3d(-100%, 0, 0) rotateY(0deg);
 }
 
+
 /* Fallback example for browsers that don't support 3D transforms (and no JS fallback) */
+
 .no-csstransforms3d .st-pusher,
 .no-js .st-pusher {
 	padding-left: 300px;
 }
 
-
-  #viewport {
+#viewport {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -594,16 +617,18 @@ canvas{
 	height: 100%;
 	perspective: 500px;
 	overflow: hidden;
-  }
-  #tower {
+}
+
+#tower {
 	width: 100%;
 	height: 100%;
 	top: 0;
 	left: 0;
 	transition: transform 2.5s linear;
 	transform-style: preserve-3d;
-  }
-  #cubes {
+}
+
+#cubes {
 	transform-style: preserve-3d;
 	width: 100%;
 	height: 100%;
@@ -611,8 +636,9 @@ canvas{
 	left: 0;
 	perspective-origin: 50% 100%;
 	transform: translate3d(0, -100px, -300px) rotateY(45deg);
-  }
-  .face {
+}
+
+.face {
 	position: absolute;
 	animation-duration: 0.5s;
 	animation-fill-mode: forwards;
@@ -620,78 +646,142 @@ canvas{
 	bottom: 0;
 	left: 50%;
 	margin-left: -100px;
-  }
-  .face .background rect {
+}
+
+.face .background rect {
 	fill-opacity: 0.7;
 	fill: black;
-  }
-  .face .corners polygon,
-  .face .cross polygon {
+}
+
+.face .corners polygon,
+.face .cross polygon {
 	fill: white;
-  }
-  .face.floor {
+}
+
+.face.floor {
 	transform: translateY(200px) translateZ(100px);
 	transform-origin: 0 0;
 	animation-name: floor-animation;
-  }
-  .face.left {
+}
+
+.face.left {
 	transform: translateX(-100px) rotateY(-90deg) rotateX(90deg);
 	transform-origin: 100px 200px;
 	animation-name: left-animation;
-  }
-  .face.back {
+}
+
+.face.back {
 	transform: translateX(-200px) translateZ(-100px) rotateY(90deg);
 	transform-origin: 200px 0;
 	animation-name: back-animation;
-  }
-  .face.right {
+}
+
+.face.right {
 	transform: translateZ(-100px);
 	transform-origin: 200px 0;
 	animation-name: right-animation;
-  }
-  .face.front {
+}
+
+.face.front {
 	transform: translateZ(100px) rotateY(-90deg);
 	transform-origin: 200px 0;
 	animation-name: front-animation;
-  }
-  @keyframes floor-animation {
+}
+
+@keyframes floor-animation {
 	from {
-	  transform: translateY(200px) translateZ(100px);
+		transform: translateY(200px) translateZ(100px);
 	}
 	to {
-	  transform: translateY(200px) translateZ(100px) rotateX(-90deg);
+		transform: translateY(200px) translateZ(100px) rotateX(-90deg);
 	}
-  }
-  @keyframes left-animation {
+}
+
+@keyframes left-animation {
 	from {
-	  transform: translateX(-100px) rotateY(-90deg) rotateX(90deg);
+		transform: translateX(-100px) rotateY(-90deg) rotateX(90deg);
 	}
 	to {
-	  transform: translateX(-100px) rotateY(-90deg) rotateX(0deg);
+		transform: translateX(-100px) rotateY(-90deg) rotateX(0deg);
 	}
-  }
-  @keyframes back-animation {
+}
+
+@keyframes back-animation {
 	from {
-	  transform: translateX(-200px) translateZ(-100px) rotateY(90deg);
+		transform: translateX(-200px) translateZ(-100px) rotateY(90deg);
 	}
 	to {
-	  transform: translateX(-200px) translateZ(-100px) rotateY(180deg);
+		transform: translateX(-200px) translateZ(-100px) rotateY(180deg);
 	}
-  }
-  @keyframes right-animation {
+}
+
+@keyframes right-animation {
 	from {
-	  transform: translateZ(-100px);
+		transform: translateZ(-100px);
 	}
 	to {
-	  transform: translateZ(-100px) rotateY(90deg);
+		transform: translateZ(-100px) rotateY(90deg);
 	}
-  }
-  @keyframes front-animation {
+}
+
+@keyframes front-animation {
 	from {
-	  transform: translateZ(100px) rotateY(-90deg);
+		transform: translateZ(100px) rotateY(-90deg);
 	}
 	to {
-	  transform: translateZ(100px) rotateY(0deg);
+		transform: translateZ(100px) rotateY(0deg);
 	}
-  }
-  
+}
+
+
+/* PARTICLES */
+
+.particles-js {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #343232;
+	background-image: url("/img/moon.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+}
+
+
+/* ---- stats.js ---- */
+
+.count-particles {
+	background: #000022;
+	position: absolute;
+	top: 48px;
+	left: 0;
+	width: 80px;
+	color: #13E8E9;
+	font-size: .8em;
+	text-align: left;
+	text-indent: 4px;
+	line-height: 14px;
+	padding-bottom: 2px;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.js-count-particles {
+	font-size: 1.1em;
+}
+
+#stats,
+.count-particles {
+	-webkit-user-select: none;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+#stats {
+	border-radius: 3px 3px 0 0;
+	overflow: hidden;
+}
+
+.count-particles {
+	border-radius: 0 0 3px 3px;
+}

@@ -41,8 +41,16 @@ export default class ThriveBot extends Component {
         return true
     }
     componentDidMount() {
-        console.log(this.props)
+        
+        
     }
+    didPersisLaunch() {
+        console.log(this.props)
+        if(this.props.launchPersis) {
+            this.getStarted
+        }
+    }
+
     getStarted() {
         console.log(this)
         let firstName = this.getUserData.data.user_name.split(' ')[0]
@@ -90,7 +98,7 @@ export default class ThriveBot extends Component {
                 <ChatBot
                     getUserData={this.returnUserData(data)}
                     onGetStarted={this.getStarted}
-                    onChange={this.componentDidUpdate}
+                    persisLaunched={this.didPersisLaunch}
                     getStartedButton={ChatBotUtil.makeGetStartedButton(bot_icon)} />
 
             </div>

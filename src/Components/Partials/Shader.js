@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Shaders, Node, GLSL } from "gl-react"
 import { Surface } from "gl-react-dom"
+import GLSLCanvas from 'react-glslcanvas';
 
 const SceneEnv = {}
 let animating = true
@@ -1110,10 +1111,13 @@ animate() {
         return (
 
             <div>
-                <canvas id="sakura"></canvas>
-                <div class="btnbg">
-                    <button type="button" onclick="toggleAnimation(this)">Stop</button>
-                </div>
+
+                <GLSLCanvas 
+                id="sakura"
+                frag = {shaders.sakura_point_vsh.frag}
+                width = {640} //Width of the canvas  
+                height = {480} //Height of the canvas 
+                />
             </div>
         )
     }

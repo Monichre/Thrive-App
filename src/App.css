@@ -5101,7 +5101,7 @@ footer .btn {
 .I-ChatBot {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  background-color: ghostwhite;
+  background-color: transparent;
   padding: 0.5em;
   position: absolute;
   top: 6em;
