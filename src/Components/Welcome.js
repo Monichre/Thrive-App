@@ -39,7 +39,7 @@ export default class Welcome extends Component {
 					if (user) {
 						localStorage.setItem('displayName', user.displayName)
 						localStorage.setItem('user_id', JSON.stringify(user.uid))
-						_this.props.history.push(`users/dashboard`);
+						_this.props.history.push(`users/dashboard/${user.uid}`)
 					} else {
 					  
 					}

@@ -698,7 +698,7 @@ export default class SignUp extends Component {
               })
               .then((response) => {
                 console.log("child route created, redirecting url")
-                _this.props.history.push(`users/dashboard`)
+                _this.props.history.push(`users/dashboard/${user.uid}`)
               })
           })
       })

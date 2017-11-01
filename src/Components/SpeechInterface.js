@@ -24,7 +24,7 @@ class SpeechInterface extends Component {
         }
         componentDidUpdate(nextProps){
             console.log(nextProps)
-            if (nextProps.transcript === "persis launch" || nextProps.transcript === "purses launch") {
+            if (nextProps.transcript === "hey persis" || nextProps.transcript === "hey purses") {
                 this.props.summonPersis(true)
                 this.props.stopListening()
             }

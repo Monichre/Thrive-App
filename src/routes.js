@@ -17,10 +17,6 @@ const site_routes = [
         component: Dashboard
 	},
 	{
-        path: '/users/dashboard',
-        component: Dashboard
-    },
-	{
 		path: '/signup',
 		exact: true,
         component: SignUp
