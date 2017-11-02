@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ChatBot, { ChatBotUtil } from 'i-chatbot'
 import Firebase from '../firebase.js'
+import VoiceCommandBot from './VoiceCommandBot'
 
 
 const overview = (props) => (
@@ -44,13 +45,6 @@ export default class ThriveBot extends Component {
         
         
     }
-    didPersisLaunch() {
-        console.log(this.props)
-        if(this.props.launchPersis) {
-            this.getStarted
-        }
-    }
-
     getStarted() {
         console.log(this)
         let firstName = this.getUserData.data.user_name.split(' ')[0]
@@ -81,10 +75,8 @@ export default class ThriveBot extends Component {
         ]
     }
     returnUserData(data){
-        console.log(data)
         return data
     }
-
     render() {
         const data = this.props
 
@@ -92,16 +84,18 @@ export default class ThriveBot extends Component {
             backgroundColor: '#00091B'
         }
         const bot_icon = <img src="/img/bot.svg" alt="" />
-
-        return (
-            <div id="ThriveBot">
-                <ChatBot
-                    getUserData={this.returnUserData(data)}
-                    onGetStarted={this.getStarted}
-                    persisLaunched={this.didPersisLaunch}
-                    getStartedButton={ChatBotUtil.makeGetStartedButton(bot_icon)} />
-
-            </div>
-        )
+        if(data.launchPersis) {
+            return <VoiceCommandBot data={data} />
+        } else {
+            return (
+                <div id="ThriveBot">
+                    <ChatBot
+                        getUserData={this.returnUserData(data)}
+                        onGetStarted={this.getStarted}
+                        getStartedButton={ChatBotUtil.makeGetStartedButton(bot_icon)} />
+    
+                </div>
+            )
+        }
     }
 }

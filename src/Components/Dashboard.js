@@ -42,7 +42,7 @@ export default class Dashboard extends Component {
             occupation: '',
             birth_order: '',
             number_of_siblings: null,
-            launchPersisChat: false
+            launchPersis: false
         }
     }
 
@@ -131,11 +131,10 @@ export default class Dashboard extends Component {
 
     }
     handlePersisSummons() {
-        if(true) {
-            console.log(true + ' Persis has been summoned')
-            this.setState({launchPersisChat: true})
-        }
-        
+        console.log(' Persis has been summoned')
+        this.setState({
+            launchPersis: true
+        })    
     }
 
     render() {
@@ -144,7 +143,8 @@ export default class Dashboard extends Component {
             width: '20px'
         }
        let all_data = this.state
-       const launchPersis = this.state.launchPersisChat
+       const launchPersis = this.state.launchPersis
+    
         
         return (
             <div id="Dashboard">

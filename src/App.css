@@ -5091,9 +5091,7 @@ footer .btn {
   width: 25%;
   /* padding: 25px; */
 }
-#ThriveBot {
-  /* padding: 25px; */
-  /* background: #fff; */
+#ThriveBot, #VoiceCommandBot {
   position: relative;
   height: 500px;
  

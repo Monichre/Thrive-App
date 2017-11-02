@@ -1,73 +1,82 @@
 import React, { Component } from 'react'
-import SpeechRecognition from 'react-speech-recognition'
-
-const options = {
-  autoStart: false
-}
 
 
-class SpeechInterface extends Component {
-    constructor(props) {
+export default class SpeechInterface extends Component {
+
+    constructor(props){
         super(props)
 
         this.state = {
-            isListening: false,
             userMessage: '',
-            persisIsLaunched: false
+            isListening: false
+        }
+        this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)()
+        this.initiateVoiceControl()
+    }
+    initiateVoiceControl() {
+        this.recognition.lang = 'en-US'
+        this.recognition.interimResults = true
+        this.recognition.maxAlternatives = 5
+        this.recognition.onresult = (event) => {
+            this.parseVoiceInput(event)
+        }
+        this.recognition.onstart = (event) => {
+            console.log(event)
         }
     }
-        componentDidMount() {
+    parseVoiceInput(event) {
+        console.log(event)
+        let message = event.results[0][0].transcript
+        console.log(message)
+        if(message === "hey persis" || message === "hey purses") {
+            this.props.summonPersis()
+        }
+        this.setState({
+            userMessage: event.results[0][0].transcript,
+            isListening: true
+        })
+
+    }
+
+        // componentDidMount() {
   
-        }
-        componentWillMount() {
-            console.log(this.props)
-        }
-        componentDidUpdate(nextProps){
-            console.log(nextProps)
-            if (nextProps.transcript === "hey persis" || nextProps.transcript === "hey purses") {
-                this.props.summonPersis(true)
-                this.props.stopListening()
-            }
-
-        }
-        componentWillUpdate(nextProps) {
-            console.log(nextProps)
-        }
-        handleUserVoiceInput(input) {
-            console.log(input)
-            
-        }
-        displayActiveListen(){
-            document.getElementById('mic__container').classList.add('listen__active')
+        // }
+        // componentWillMount() {
+        //     console.log(this.props)
+        // }
+        // componentDidUpdate(nextProps){
+        //     console.log(nextProps)
+        // }
+        // componentWillUpdate(nextProps) {
+        //     console.log(nextProps)
+        // }
+  
+        displayActiveListen(){ 
             this.setState({isListening: true})
-            this.props.startListening()
-
-            console.log(this.props.listening)
-            console.log(this.props.transcript)
-
+            this.recognition.start()
         }
+  
         render() {
-            const { transcript, startListening, browserSupportsSpeechRecognition, stopListening, listening, interimTranscript } = this.props
+            let message = this.state.userMessage
+            let css_class = ''
+            if(this.state.isListening) {
+                css_class = 'listen__active'
+            }
+            console.log(message)
+            
             const icon_style = {
                 height: '20px',
                 width: '20px'
             }
-   
-
-            if (!browserSupportsSpeechRecognition) {
-                return null
-            }
-            if (listening){
-                
-                
-                
-            }
-
             return (
                 <div>
-                    <div id="mic__container" onClick={() =>{startListening, this.displayActiveListen()}}><img style={icon_style } src="/img/mic.svg" alt=""/></div>
+                    <div id="mic__container"  
+                        className={css_class}
+                        onClick={this.displayActiveListen.bind(this)}>
+
+                        <img style={icon_style } src="/img/mic.svg" alt=""/>
+                    </div>
                 </div>
             )
         }
 }
-export default SpeechRecognition(options)(SpeechInterface)
