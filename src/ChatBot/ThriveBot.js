@@ -2,14 +2,24 @@ import React, { Component } from 'react'
 import ChatBot, { ChatBotUtil } from 'i-chatbot'
 import Firebase from '../firebase.js'
 import VoiceCommandBot from './VoiceCommandBot'
+var apiai = require('apiai');
+
+var app = apiai("<your client access token>");
+
+var request = app.textRequest('<Your text query>', {
+    sessionId: '<unique session id>'
+});
 
 
-const overview = (props) => (
-    <div className="">
-        <h2>Overview Div</h2>
-    </div>
-)
+request.on('response', function(response) {
+    console.log(response)
+});
 
+request.on('error', function(error) {
+    console.log(error)
+});
+
+request.end()
 
 export default class ThriveBot extends Component {
     constructor(props) {
@@ -54,8 +64,6 @@ export default class ThriveBot extends Component {
         let family_size = this.getUserData.data.number_of_siblings
         let goal = this.getUserData.data.goals[0].goal
 
-        
-        
         return [
             ChatBotUtil.textMessage([`Welcome ${firstName}, would you like to review your goals?`].any(),
                 ChatBotUtil.makeReplyButton('Yes', () => {
@@ -77,7 +85,15 @@ export default class ThriveBot extends Component {
     returnUserData(data){
         return data
     }
+    doDialogueDemo(){
+        return [
+            ChatBotUtil.makeTextInputField('no idea', () => {
+                console.lof('fuck it were in the dialogue')
+            })
+        ]
+    }
     render() {
+        let demo = true
         const data = this.props
 
         const bubble_style = {
@@ -86,7 +102,17 @@ export default class ThriveBot extends Component {
         const bot_icon = <img src="/img/bot.svg" alt="" />
         if(data.launchPersis) {
             return <VoiceCommandBot data={data} />
-        } else {
+        } else if (demo) {
+            return (
+                <div id="ThriveBot">
+                    <ChatBot
+                        onGetStarted={this.doDialogueDemo}
+                        getStartedButton={ChatBotUtil.makeGetStartedButton('Hi')} />
+
+                </div>
+            )
+        }
+        else {
             return (
                 <div id="ThriveBot">
                     <ChatBot

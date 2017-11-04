@@ -1,11 +1,7 @@
 const brain = require('brain')
 const neural_net = new brain.NeuralNetwork()
-const scraper_data = require('./scraper')
+const DATA = require('./scraper')
 
-console.log(scraper_data)
+console.log(DATA)
 
-
-function parseTopicsAndContent(data) {
-    return data
-}
 
