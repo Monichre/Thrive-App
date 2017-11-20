@@ -4,7 +4,7 @@ export default class Verification extends Component {
     render() {
         return (
             <div>
-                Verify your email address
+                Please check your email for a verification link
             </div>
         )
     }

@@ -22,10 +22,15 @@ const site_routes = [
         component: SignUp
 	},
 	{
-		path: '/verify',
+		path: '/await-verification',
 		exact: true,
-        component: Verification
-    }
+        component: Welcome
+	},
+	{
+		path: '/verify/:token/users/dashboard/:user_id',
+		exact: true,
+        component: Dashboard
+	}
 ]
 
 export default (

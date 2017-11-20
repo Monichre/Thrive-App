@@ -10,7 +10,7 @@
   position: relative;
   background-color: #00091B;
   font-family: 'Muli', Helvetica, sans-serif;
-  height: 100vh;
+  /* height: 100vh; */
   width: 100%;
 }
 .Welcome .material-icons {

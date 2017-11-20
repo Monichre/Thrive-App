@@ -698,7 +698,7 @@ export default class SignUp extends Component {
               })
               .then((response) => {
                 console.log("child route created, redirecting url")
-                _this.props.history.push(`users/dashboard/${user.uid}`)
+                _this.props.history.push('await-verification')
               })
           })
       })
@@ -737,10 +737,7 @@ export default class SignUp extends Component {
     user_goal_info.commitment_level = this.state.commitment_level
     user_goal_info.current_emotional_state = this.state.current_emotional_state
     user_goal_info.anticipated_emotional_state = this.state.anticipated_emotional_state
-
-
-
-
+    
     return Firebase.database().ref('users/' + user.uid + '/goals/' + new_goal_key).set({
       goal: user_goal_info
     })

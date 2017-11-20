@@ -30,24 +30,21 @@ export default class Welcome extends Component {
 					alert('Invalid Login')
 				}
 				else {
-					
+
 				}
 			})
-			.then(function(user) {
-				Firebase.auth().onAuthStateChanged(function(user) {
+			.then(function (user) {
+				Firebase.auth().onAuthStateChanged(function (user) {
 					console.log(user)
 					if (user) {
 						localStorage.setItem('displayName', user.displayName)
 						localStorage.setItem('user_id', JSON.stringify(user.uid))
 						_this.props.history.push(`users/dashboard/${user.uid}`)
 					} else {
-					  
+
 					}
 				})
 			})
-
-		
-
 	}
 	userIsSignedIn(user) {
 		return user.isAnonymous != true
@@ -86,10 +83,10 @@ export default class Welcome extends Component {
 		document.querySelector('.slogan').style.display = 'block'
 	}
 	componentDidMount() {
+		console.log(this.props)
 		let user = Firebase.auth().currentUser
-
 		let searchContainer = document.querySelector('.search')
-		const inputSearch = searchContainer.querySelector('.search__input')
+		let inputSearch = searchContainer.querySelector('.search__input')
 
 		inputSearch.addEventListener('keyup', function (e) {
 			if (e.keyCode == 27) { //Escape Key
@@ -97,12 +94,77 @@ export default class Welcome extends Component {
 			}
 		})
 	}
+	componentWillMount() {
+		
+	}
 
 	render() {
-			const link_style = {
-				color: '#fff'
-			}
+		const link_style = {
+			color: '#fff'
+		}
+		if (this.props.match.path === '/await-verification') {
 			
+			return (
+				<div className="Welcome container">
+					<nav className="navbar navbar-transparent navbar-absolute">
+						<div className="container-fluid">
+							<div className="collapse navbar-collapse">
+								<ul className="nav navbar-nav navbar-right">
+									<li>
+										<div className="search-wrap">
+											<div id="btn-search" className="btn btn--search" onClick={this.openLogin.bind(this)}> Login </div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+					</nav>
+					<div className="search">
+						<button id="btn-search-close" className="btn btn--search-close" aria-label="Close search form" onClick={this.closeLogin.bind(this)}><svg className="icon icon--cross"><use xlinkHref="#icon-cross"></use></svg></button>
+						<form className="search__form" action="" onSubmit={this.handleSubmit.bind(this)} >
+							<input onChange={this.handleEmail.bind(this)} value={this.state.email} className="search__input" name="email" type="email" placeholder="Email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required />
+							<input onChange={this.handlePassword.bind(this)} value={this.state.password} className="search__input" name="password" type="password" placeholder="Password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required />
+							<span className="search__info">Hit enter to login or ESC to close</span>
+							<button className="btn" type="submit">Send</button>
+						</form>
+					</div>
+					<div className="row">
+						<div className="col-md-6">
+							<h1 className="slogan_text">
+								Success <span className="period">.</span> <br />
+								Delivered <span className="period">.</span>
+							</h1>
+							<h4 className="slogan_text_subheader"><i>AI meets success psychology</i></h4>
+						</div>
+						<div className="col-md-6">
+							<div className="verification_text">
+								<h1 className="slogan_text">Please check your email for your verification link</h1>
+							</div>
+						</div>
+					</div>
+					<div className="logo_container">
+						<div className="coast">
+							<div className="wave-rel-wrap">
+								<div className="wave"></div>
+							</div>
+						</div>
+						<div className="coast delay">
+							<div className="wave-rel-wrap">
+								<div className="wave delay"></div>
+							</div>
+						</div>
+						<div className="text text-t">t</div>
+						<div className="text text-h">h</div>
+						<div className="text text-r">r</div>
+						<div className="text text-i">i</div>
+						<div className="text text-v">v</div>
+						<div className="text text-e">e</div>
+					</div>
+
+				</div>
+			)
+		} else {
 
 			return (
 				<div className="Welcome">
@@ -135,10 +197,10 @@ export default class Welcome extends Component {
 					<div className="search">
 						<button id="btn-search-close" className="btn btn--search-close" aria-label="Close search form" onClick={this.closeLogin.bind(this)}><svg className="icon icon--cross"><use xlinkHref="#icon-cross"></use></svg></button>
 						<form className="search__form" action="" onSubmit={this.handleSubmit.bind(this)} >
-							<input onChange={this.handleEmail.bind(this)} value={this.state.email} className="search__input" name="email" type="email" placeholder="Email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required/>
-							<input onChange={this.handlePassword.bind(this)} value={this.state.password} className="search__input" name="password" type="password" placeholder="Password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required/>
+							<input onChange={this.handleEmail.bind(this)} value={this.state.email} className="search__input" name="email" type="email" placeholder="Email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required />
+							<input onChange={this.handlePassword.bind(this)} value={this.state.password} className="search__input" name="password" type="password" placeholder="Password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="true" required />
 							<span className="search__info">Hit enter to login or ESC to close</span>
-							 <button className="btn" type="submit">Send</button>
+							<button className="btn" type="submit">Send</button>
 						</form>
 					</div>
 					<div className="slogan">
@@ -175,6 +237,7 @@ export default class Welcome extends Component {
 
 				</div>
 			)
+		}
 	}
 }
 
