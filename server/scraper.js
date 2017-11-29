@@ -20,6 +20,15 @@ const cognitive_bias = {
     id: uuid(),
     data: {}
 }
+const trim = (str) => {
+    let trimmed
+
+    if(str.length > 2000) {
+        trimmed = str.split('').slice(0, 2000)
+    }
+    return trimmed
+}
+let attempt
 const DATA_URLS = [mental_models, decision_making, cognitive_bias]
 const createNewEnrichmentEntry = (source) => Firebase.database().ref(`enrichment-entries/${source.id}`)
 
@@ -47,7 +56,7 @@ const filterScrape = async(source, params) => {
                 topic.text = $(elem).text()
 
                 if ($(elem).closest('p')) {
-                    content.text = $(elem).closest('p').text()
+                    content.text = trim($(elem).closest('p').text())
                     content.id = id
                 }
                 filtered_data.topics.push(topic)
@@ -66,11 +75,12 @@ const filterScrape = async(source, params) => {
         })
 
     } catch (err) {
+
         console.log(err)
+
     }
 
     return filtered_data
-
 }
 
 const scrape = (source) => {
@@ -84,20 +94,19 @@ const scrape = (source) => {
         })
     })
 }
-function storeEnrichmentEntries(source) {
 
-    createNewEnrichmentEntry(source).set({
-        topics: source.data.topics,
-        content: source.data.content,
-        additional_content: source.data.additional_content
-       
-      }).then((response) => {
-          console.log(response)
-      }, (error) => {
-          console.log(error)
-      })
-      
-}
+// function storeEnrichmentEntries(source) {
+//     createNewEnrichmentEntry(source).set({
+//         topics: source.data.topics,
+//         content: source.data.content,
+//         additional_content: source.data.additional_content
+//       }).then((response) => {
+//           console.log(response)
+//       }, (error) => {
+//           console.log(error)
+//       })
+// }
+
 async function initEnrichment(source, callback) {
 
     let params = ['h1', 'h2', 'h3', 'p']
@@ -109,27 +118,32 @@ async function initEnrichment(source, callback) {
         console.log(err)
     }
 
-    storeEnrichmentEntries(source)
+    // storeEnrichmentEntries(source)
     return new_data
 }
 
-const DATA = DATA_URLS.map(async (source) => {
+async function setData() {
+    DATA = DATA_URLS.map(async(source) => source.data = await initEnrichment(source))
+    return DATA
+}
 
+function start(){
     let incoming_data
-    try {
-        incoming_data = await initEnrichment(source)
-    }
-    catch (err) {
-        console.log(err)
-    }
-    source.data = incoming_data
 
-    return source.data
-    
-})
+    new Promise((resolve)=> {
+        resolve(setData())    
+    }).then((res) => {
+        setTimeout(() => {
+            console.log(res)
+            res.forEach((promise) => {
+                console.log(promise)
+            })
+            
+            
+        }, 2000)
+        
+    })
+}
 
+start()
 console.log(DATA)
-
-// setTimeout(function() {
-//     console.log(DATA)
-// }, 2000)

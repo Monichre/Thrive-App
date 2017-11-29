@@ -53,7 +53,12 @@ export default class ThriveBot extends Component {
     }
     componentDidMount() {
         
+    }
+    displayUserTextMessageInChatBot() {
         
+        return [
+            ChatBotUtil.makeTextInputField(`What's the title of your goal?`)
+        ]
     }
     getStarted() {
         console.log(this)
@@ -74,10 +79,17 @@ export default class ThriveBot extends Component {
                         ${goal}`)
                     ]
                 }),
+                ChatBotUtil.makeReplyButton('No', this.handleNewGoalQuestion.bind(this))
+            )
+        ]
+    }
+    handleChatBotNewGoalQuestion() {
+        console.log(this)
+        return [
+            ChatBotUtil.textMessage('Ok, would you like to add a new goal?',
+                ChatBotUtil.makeReplyButton('Yes', this.displayUserTextInput),
                 ChatBotUtil.makeReplyButton('No', () => {
-                    return [
-                        ChatBotUtil.textMessage('Ok, would you like to add a new goal?')
-                    ]
+                    return ChatBotUtil.textMessage("As you wish, back to the ether I go")
                 })
             )
         ]
@@ -85,38 +97,24 @@ export default class ThriveBot extends Component {
     returnUserData(data){
         return data
     }
-    doDialogueDemo(){
-        return [
-            ChatBotUtil.makeTextInputField('no idea', () => {
-                console.lof('fuck it were in the dialogue')
-            })
-        ]
-    }
-    render() {
-        let demo = true
-        const data = this.props
 
+    render() {
+
+        const bot_icon = <img src="/img/bot.svg" alt="" />
+        const data = this.props
         const bubble_style = {
             backgroundColor: '#00091B'
         }
-        const bot_icon = <img src="/img/bot.svg" alt="" />
+        
         if(data.launchPersis) {
             return <VoiceCommandBot data={data} />
-        } else if (demo) {
-            return (
-                <div id="ThriveBot">
-                    <ChatBot
-                        onGetStarted={this.doDialogueDemo}
-                        getStartedButton={ChatBotUtil.makeGetStartedButton('Hi')} />
-
-                </div>
-            )
-        }
-        else {
+        } else {
             return (
                 <div id="ThriveBot">
                     <ChatBot
                         getUserData={this.returnUserData(data)}
+                        handleNewGoalQuestion={this.handleChatBotNewGoalQuestion}
+                        displayUserTextInput={this.displayUserTextMessageInChatBot.bind(this)}
                         onGetStarted={this.getStarted}
                         getStartedButton={ChatBotUtil.makeGetStartedButton(bot_icon)} />
     

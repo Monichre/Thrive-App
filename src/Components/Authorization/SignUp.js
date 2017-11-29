@@ -682,10 +682,8 @@ export default class SignUp extends Component {
 
         return Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
           .catch((error, callback) => {
-
             const errorCode = error.code
             const errorMessage = error.message
-
             console.log(errorCode, errorMessage)
           })
           .then((user) => {
@@ -712,14 +710,15 @@ export default class SignUp extends Component {
   initializeNewUserGoals(user) {
 
     var user = Firebase.auth().currentUser
-
+    console.log(user)
     user.updateProfile({
       displayName: this.state.name,
     }).then((response) => {
-      console.log(response)
+      console.log(user)
     }, (error) => {
       console.log(error)
-    });
+    })
+    console.log(user)
 
     const new_user_key = Firebase.database().ref('users/' + user.uid).set({
       username: this.state.name,

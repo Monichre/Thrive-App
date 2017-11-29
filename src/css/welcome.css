@@ -1,48 +1,48 @@
-@import url("https://fonts.googleapis.com/css?family=Muli");
-*, *:before, *:after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 .Welcome {
-  font-size: 62.5%;
   position: relative;
-  background-color: #00091B;
-  font-family: 'Muli', Helvetica, sans-serif;
-  /* height: 100vh; */
-  width: 100%;
+  padding: 0 100px;
+}
+.Welcome__inner {
+  position: relative;
 }
 .Welcome .material-icons {
-	color: #32e6ff;
+  color: #fff;
+  
+  
 }
 .dropdown-toggle span {
 	transition: none!important;
 }
 .fa .fa-facebook {
-	color: #32e6ff;
+	color: #fff;
 	background: none;
 }
-.Welcome .navbar-brand {
+.Welcome .navbar {
 	color: #fff;
-	position: relative;
-	left: 70px;
+}
+.Welcome .navbar {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 30px 0;
+}
+.Welcome .navbar ul {
+  text-align: right;
+  list-style-type: none;
+}
+.Welcome .navbar ul li {
+  font-size: 2em;
 }
 
 .logo_container {
-  position: fixed;
-  /* width: 17rem; */
-  /* height: 10rem; */
-  left: 100px;
-  top: 75px;
-  /* -webkit-transform: translate(-50%, -50%); */
-  /* transform: translate(-50%, -50%); */
-  /* transform: translate(-50%, -50%); */
+  position: absolute;
+  bottom: 80%;
 }
 
 .text {
   color: #fff;
-  font-size: 6rem;
+  font-size: 5rem;
   font-weight: 900;
   display: inline-block;
   position: absolute;
@@ -310,9 +310,7 @@
 /*font-family: 'Fira Sans Condensed', sans-serif;*/
 
 .slogan {
-	position: absolute;
-	top: 40%;
-	left: 100px;
+
 }
 .slogan_text {
 	font-family: 'Fira Sans Condensed', sans-serif;
@@ -346,7 +344,11 @@
 	align-items: center;
   text-align: center;
   height: 100%;
-	background: rgba(18, 23, 56, 0.9);
+  background: rgba(18, 23, 56, 0.9);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .js .search {
@@ -382,7 +384,7 @@
 	border-left-width: 0;
 }
 #btn-search {
-  background: rgba(18, 23, 56, 0.9)!important;
+  
 }
 .btn--search-close {
 	font-size: 2em;
