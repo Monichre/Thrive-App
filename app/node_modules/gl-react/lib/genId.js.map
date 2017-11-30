@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/genId.js"],"names":["genId","i"],"mappings":";;;;;AACA,IAAMA,QAAuB;AAAA,SAAK;AAAA,WAAM,EAAEC,CAAR;AAAA,GAAL;AAAA,CAAD,CAAiB,CAAjB,CAA5B;kBACeD,K","file":"genId.js","sourcesContent":["//@flow\nconst genId: () => number = (i => () => ++i)(0);\nexport default genId;\n"]}

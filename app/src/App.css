@@ -1,0 +1,279 @@
+
+/* *, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} */
+
+*,
+*:after,
+*::before {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+  font-size: 62.5%;
+  position: relative;
+  background-color: #00091B;
+  font-family: 'Muli', Helvetica, sans-serif;
+  /* height: 100vh; */
+  width: 100%;
+}
+/* ChatBot CSS */
+#ThriveBot {
+  padding: 20px;
+}
+#ThriveBot .ThriveBot__inner .ActionBar {
+  list-style-type: none;
+}
+#ThriveBot .ThriveBot__inner .ActionBar .GetStartedButton {
+  background: none;
+}
+.chatbot__container {
+  position: fixed;
+  bottom: 0;
+  border: none!important;
+  box-shadow: none;
+  right: 0;
+  width: 25%;
+  /* padding: 25px; */
+}
+#ThriveBot, #VoiceCommandBot {
+  position: relative;
+  height: 400px;
+ 
+}
+.ThriveBot__inner {
+  position: relative;
+  height: 100%;
+ 
+}
+.ThriveBot__inner form {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+}
+.ThriveBot__inner ul.ActionBar {
+  list-style-type: none;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 0.5em;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.ThriveBot__inner  {
+  display: inline-block;
+  margin: 0 0.5em;
+}
+.ThriveBot__inner button,
+.ThriveBot__inner form input {
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  padding: 0.5em 1em;
+}
+.ThriveBot__inner button.GetStartedButton {
+  background-color: antiquewhite;
+}
+.ThriveBot__inner  button.ReplyButton {
+  background-color: lightblue;
+}
+.ThriveBot__inner  div.TextInput button.Submit {
+  background-color: lightblue;
+  margin: 0 0.5em;
+}
+#userTextInput {
+  width: 100%;
+  padding: 12px;
+  position: relative;
+}
+#chatSend {
+  position: relative;
+  right: 2px;
+  z-index: 10;
+  background-color: #aec6cf!important;
+  color: #fff;
+  font-weight: 500px;
+  padding: 9px;
+  position: absolute;
+  bottom: 2px;
+  
+}
+.ThriveBot__inner ul.Messages {
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding: 0.5em;
+  position: absolute;
+  top: 0;
+  bottom: 3em;
+  left: 0;
+  right: 0;
+}
+.ThriveBot__inner ul.Messages li.Message {
+  margin: 0.25em 0;
+}
+.ThriveBot__inner ul.Messages li.Message div.Message-Animatable-Container {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.ThriveBot__inner ul.Messages li.Message div.Message-Content {
+  border-radius: 6px;
+  max-width: 60%;
+  padding: 0.5em 1em;
+  text-align: center;
+}
+.Message-Content.ChatBot_text {
+  background-color: darkgray;
+  border-radius: 50%;
+  float: left;
+  /* height: 0.5em; */
+  margin: 0 0.2em;
+  opacity: 0.4;
+  /* width: 0.5em; */
+  text-align: left;
+}
+.Message-Content.User_text {
+  background-color: #aec6cf!important;
+  border-radius: 50%;
+  float: right;
+  height: 0.5em;
+  margin: 0 0.2em;
+  opacity: 0.4;
+  width: 0.5em;
+  text-align: right;
+}
+
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing {
+  background-color: lightgray;
+  border-radius: 6px;
+  display: table;
+  padding: 0.5em 0;
+  width: auto;
+}
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span {
+
+}
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(1) {
+  animation: 1s blink infinite 0.3333s;
+}
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(2) {
+  animation: 1s blink infinite 0.6666s;
+}
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(3) {
+  animation: 1s blink infinite 0.9999s;
+}
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+.ThriveBot__inner ul.Messages li.Message.Inbound div.Message-Animatable-Container {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.ThriveBot__inner ul.Messages li.Message.Inbound div.Message-Animatable-Container div.Message-Content {
+  background-color: darkgray;
+  color: white;
+}
+.ThriveBot__inner ul.Messages li.Message.Outbound div.Message-Animatable-Container {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.ThriveBot__inner ul.Messages li.Message.Outbound div.Message-Animatable-Container div.Message-Content {
+  background-color: lightgray;
+  color: black;
+}
+.ThriveBot__inner .ActionBar-enter {
+  transform: translate3d(0, 500%, 0);
+}
+.ThriveBot__inner .ActionBar-enter.ActionBar-enter-active {
+  transform: translate3d(0, 0, 0);
+  transition: all 500ms ease-out;
+}
+.ThriveBot__inner .ActionBar-leave {
+  opacity: 1;
+}
+.ThriveBot__inner .ActionBar-leave.ActionBar-leave-active {
+  opacity: 0;
+  transition: all 300ms ease-out;
+}
+.ThriveBot__inner .Messages-enter.Inbound {
+  transform: translate3d(200%, 0, 0);
+}
+.ThriveBot__inner .Messages-enter.Outbound {
+  transform: translate3d(-200%, 0, 0);
+}
+.ThriveBot__inner .Messages-enter.Messages-enter-active {
+  transform: translate3d(0, 0, 0);
+  transition: all 500ms ease-out;
+}
+.ThriveBot__inner .Messages-leave {
+  opacity: 1;
+}
+.ThriveBot__inner .Messages-leave.Messages-leave-active {
+  opacity: 0;
+  transition: all 300ms ease-out;
+}
+.ThriveBot__inner .Message-Content-enter {
+  opacity: 0;
+}
+.ThriveBot__inner .Message-Content-enter.Message-Content-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-out;
+}
+.ThriveBot__inner .Message-Content-leave {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 1;
+}
+.ThriveBot__inner .Message-Content-leave.Message-Content-leave-active {
+  opacity: 0;
+  transition: all 300ms ease-out;
+}
+.ThriveBot__inner ul.Messages li.Message.Inbound div.Message-Animatable-Container div.Message-Content {
+  background-color: transparent;
+}
+.ThriveBot__inner ul.Messages li.Message.Outbound div.Message-Animatable-Container div.Message-Content {
+  background-color: #fff;
+}
+
+
+/* Speech CSS */
+.speechInterface__container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+.listen__active {
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 20px;
+  border: 1px solid lightskyblue;
+}
+
+/* SHADER */
+canvas {
+  padding:0;
+  margin:0;
+}
+div.btnbg {
+  position:fixed;
+  left:0;
+  top:0;
+  box-shadow: 0px 0px 15px #ccc;
+}
+div.btnbg:hover{
+  text-shadow: 0px 0px 3px #ccc;
+  box-shadow: 0px 0px 20px #ccc;
+}
