@@ -27,9 +27,11 @@ export default class ThriveBot extends Component {
             goals: [],
             occupation: '',
             birth_order: '',
-            number_of_siblings: null
+            number_of_siblings: null,
+            revealChatBot: false,
+            messages: []
         }
-        
+
     }
     componentWillReceiveProps(nextProps) {
         console.log(nextProps)
@@ -41,41 +43,91 @@ export default class ThriveBot extends Component {
             number_of_siblings: nextProps.number_of_siblings
         })
     }
-    componentDidUpdate(nextProps){
-        
+    componentDidUpdate(nextProps) {
+
         console.log(nextProps)
     }
-    shouldComponentUpdate(nextProps){
+    shouldComponentUpdate(nextProps) {
         return true
     }
     componentDidMount() {
-        
+
     }
-    makeReplyButton() {
+    makeReplyButton(options) {
         return (
-            <div>
-                <button>Reply Button</button>
-            </div>
+            options.map(option => {
+                return (
+                    <li className="Message Inbound">
+                        <div className="Message-Animatable-Container">
+                            <div className="Message-Content">
+                                    <button className="ReplyButton">{option.text}</button>
+                            </div>
+                        </div>
+                    </li>
+                )
+            })
         )
     }
     handleUserTextSubmit(e) {
         console.log(e.target.value)
     }
-   
+    createTextMessage(content) {
+        return (
+            <li className="Message Inbound">
+                <div className="Message-Animatable-Container">
+                    <div className="Message-Content">
+                            {content}
+                    </div>
+                </div>
+            </li>
+        )
+    }
+    revealChatBot(e){
+        e.preventDefault()
+        this.setState({
+            revealChatBot: true
+        })
+        
+    }
+
 
     render() {
 
-        const bot_icon = <img src="/img/bot.svg" alt="" />
+        
         const data = this.props
         const bubble_style = {
             backgroundColor: '#00091B'
         }
-        
+        const chat_icon_style = {
+            position: 'absolute',
+            bottom: '15px',
+            right: '15px'
+        }
+        let chat_hideOrShow
+        if(this.state.revealChatBot) {
+            chat_hideOrShow = {
+                display: 'block'
+            }
+        } else {
+            chat_hideOrShow = {
+                display: 'none'
+            }
+        }
+
         return (
-            <div id="ThriveBot">
-
-
-            </div>
-        )
+                
+                    <div id="ThriveBot">
+                        <img src="/img/bot.svg" alt="" style={chat_icon_style} onClick={this.revealChatBot.bind(this)}/>
+                        <div className="ThriveBot__inner" style={chat_hideOrShow}>
+                            <ul className="Messages">
+                            </ul>
+                            <form onSubmit={this.handleUserTextSubmit.bind(this)}>
+                                <input type="text" placeholder="..."/>
+                                <button>Send</button>
+                            </form>
+                        </div>
+                    </div>
+                
+            )
     }
 }

@@ -16,10 +16,13 @@ body {
   width: 100%;
 }
 /* ChatBot CSS */
-#ThriveBot .I-ChatBot .ActionBar {
+#ThriveBot {
+  padding: 40px;
+}
+#ThriveBot .ThriveBot__inner .ActionBar {
   list-style-type: none;
 }
-#ThriveBot .I-ChatBot .ActionBar .GetStartedButton {
+#ThriveBot .ThriveBot__inner .ActionBar .GetStartedButton {
   background: none;
 }
 .chatbot__container {
@@ -33,21 +36,20 @@ body {
 }
 #ThriveBot, #VoiceCommandBot {
   position: relative;
-  height: 500px;
+  height: 400px;
  
 }
-.I-ChatBot {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  background-color: transparent;
-  padding: 0.5em;
-  position: absolute;
-  top: 6em;
-  bottom: 4em;
-  left: 1em;
-  right: 1em;
+.ThriveBot__inner {
+  position: relative;
+  height: 100%;
+ 
 }
-.I-ChatBot ul.ActionBar {
+.ThriveBot__inner form {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+}
+.ThriveBot__inner ul.ActionBar {
   list-style-type: none;
   margin: 0;
   overflow-y: scroll;
@@ -60,28 +62,28 @@ body {
   left: 0;
   right: 0;
 }
-.I-ChatBot ul.ActionBar li.Action {
+.ThriveBot__inner ul.ActionBar li.Action {
   display: inline-block;
   margin: 0 0.5em;
 }
-.I-ChatBot ul.ActionBar li.Action button,
-.I-ChatBot ul.ActionBar li.Action input {
+.ThriveBot__inner ul.ActionBar li.Action button,
+.ThriveBot__inner ul.ActionBar li.Action input {
   border: none;
   border-radius: 6px;
   outline: none;
   padding: 0.5em 1em;
 }
-.I-ChatBot ul.ActionBar li.Action button.GetStartedButton {
+.ThriveBot__inner ul.ActionBar li.Action button.GetStartedButton {
   background-color: antiquewhite;
 }
-.I-ChatBot ul.ActionBar li.Action button.ReplyButton {
+.ThriveBot__inner ul.ActionBar li.Action button.ReplyButton {
   background-color: lightblue;
 }
-.I-ChatBot ul.ActionBar li.Action div.TextInput button.Submit {
+.ThriveBot__inner ul.ActionBar li.Action div.TextInput button.Submit {
   background-color: lightblue;
   margin: 0 0.5em;
 }
-.I-ChatBot ul.Messages {
+.ThriveBot__inner ul.Messages {
   list-style-type: none;
   margin: 0;
   overflow: hidden;
@@ -93,28 +95,28 @@ body {
   left: 0;
   right: 0;
 }
-.I-ChatBot ul.Messages li.Message {
+.ThriveBot__inner ul.Messages li.Message {
   margin: 0.25em 0;
 }
-.I-ChatBot ul.Messages li.Message div.Message-Animatable-Container {
+.ThriveBot__inner ul.Messages li.Message div.Message-Animatable-Container {
   display: flex;
   position: relative;
   width: 100%;
 }
-.I-ChatBot ul.Messages li.Message div.Message-Content {
+.ThriveBot__inner ul.Messages li.Message div.Message-Content {
   border-radius: 6px;
   max-width: 60%;
   padding: 0.5em 1em;
   text-align: center;
 }
-.I-ChatBot ul.Messages li.Message div.Message-Content div.Typing {
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing {
   background-color: lightgray;
   border-radius: 6px;
   display: table;
   padding: 0.5em 0;
   width: auto;
 }
-.I-ChatBot ul.Messages li.Message div.Message-Content div.Typing span {
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span {
   background-color: darkgray;
   border-radius: 50%;
   float: left;
@@ -123,13 +125,13 @@ body {
   opacity: 0.4;
   width: 0.5em;
 }
-.I-ChatBot ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(1) {
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(1) {
   animation: 1s blink infinite 0.3333s;
 }
-.I-ChatBot ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(2) {
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(2) {
   animation: 1s blink infinite 0.6666s;
 }
-.I-ChatBot ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(3) {
+.ThriveBot__inner ul.Messages li.Message div.Message-Content div.Typing span:nth-of-type(3) {
   animation: 1s blink infinite 0.9999s;
 }
 @keyframes blink {
@@ -137,74 +139,74 @@ body {
     opacity: 1;
   }
 }
-.I-ChatBot ul.Messages li.Message.Inbound div.Message-Animatable-Container {
+.ThriveBot__inner ul.Messages li.Message.Inbound div.Message-Animatable-Container {
   align-items: flex-end;
   justify-content: flex-end;
 }
-.I-ChatBot ul.Messages li.Message.Inbound div.Message-Animatable-Container div.Message-Content {
+.ThriveBot__inner ul.Messages li.Message.Inbound div.Message-Animatable-Container div.Message-Content {
   background-color: darkgray;
   color: white;
 }
-.I-ChatBot ul.Messages li.Message.Outbound div.Message-Animatable-Container {
+.ThriveBot__inner ul.Messages li.Message.Outbound div.Message-Animatable-Container {
   align-items: flex-start;
   justify-content: flex-start;
 }
-.I-ChatBot ul.Messages li.Message.Outbound div.Message-Animatable-Container div.Message-Content {
+.ThriveBot__inner ul.Messages li.Message.Outbound div.Message-Animatable-Container div.Message-Content {
   background-color: lightgray;
   color: black;
 }
-.I-ChatBot .ActionBar-enter {
+.ThriveBot__inner .ActionBar-enter {
   transform: translate3d(0, 500%, 0);
 }
-.I-ChatBot .ActionBar-enter.ActionBar-enter-active {
+.ThriveBot__inner .ActionBar-enter.ActionBar-enter-active {
   transform: translate3d(0, 0, 0);
   transition: all 500ms ease-out;
 }
-.I-ChatBot .ActionBar-leave {
+.ThriveBot__inner .ActionBar-leave {
   opacity: 1;
 }
-.I-ChatBot .ActionBar-leave.ActionBar-leave-active {
+.ThriveBot__inner .ActionBar-leave.ActionBar-leave-active {
   opacity: 0;
   transition: all 300ms ease-out;
 }
-.I-ChatBot .Messages-enter.Inbound {
+.ThriveBot__inner .Messages-enter.Inbound {
   transform: translate3d(200%, 0, 0);
 }
-.I-ChatBot .Messages-enter.Outbound {
+.ThriveBot__inner .Messages-enter.Outbound {
   transform: translate3d(-200%, 0, 0);
 }
-.I-ChatBot .Messages-enter.Messages-enter-active {
+.ThriveBot__inner .Messages-enter.Messages-enter-active {
   transform: translate3d(0, 0, 0);
   transition: all 500ms ease-out;
 }
-.I-ChatBot .Messages-leave {
+.ThriveBot__inner .Messages-leave {
   opacity: 1;
 }
-.I-ChatBot .Messages-leave.Messages-leave-active {
+.ThriveBot__inner .Messages-leave.Messages-leave-active {
   opacity: 0;
   transition: all 300ms ease-out;
 }
-.I-ChatBot .Message-Content-enter {
+.ThriveBot__inner .Message-Content-enter {
   opacity: 0;
 }
-.I-ChatBot .Message-Content-enter.Message-Content-enter-active {
+.ThriveBot__inner .Message-Content-enter.Message-Content-enter-active {
   opacity: 1;
   transition: all 500ms ease-out;
 }
-.I-ChatBot .Message-Content-leave {
+.ThriveBot__inner .Message-Content-leave {
   position: absolute;
   left: 0;
   top: 0;
   opacity: 1;
 }
-.I-ChatBot .Message-Content-leave.Message-Content-leave-active {
+.ThriveBot__inner .Message-Content-leave.Message-Content-leave-active {
   opacity: 0;
   transition: all 300ms ease-out;
 }
-.I-ChatBot ul.Messages li.Message.Inbound div.Message-Animatable-Container div.Message-Content {
+.ThriveBot__inner ul.Messages li.Message.Inbound div.Message-Animatable-Container div.Message-Content {
   background-color: transparent;
 }
-.I-ChatBot ul.Messages li.Message.Outbound div.Message-Animatable-Container div.Message-Content {
+.ThriveBot__inner ul.Messages li.Message.Outbound div.Message-Animatable-Container div.Message-Content {
   background-color: #fff;
 }
 
