@@ -1,10 +1,10 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
-
 import Welcome from './Components/Welcome'
 import Dashboard from './Components/Dashboard'
 import SignUp from './Components/Authorization/SignUp'
 import Verification from './Components/Authorization/Verification'
+import AppStore from './AppStore/AppStore'
 
 const site_routes = [
 	{
@@ -32,12 +32,12 @@ const site_routes = [
         component: Dashboard
 	}
 ]
-
+const data = AppStore.data
 export default (
 	<div>
 		{site_routes.map((route, i) =>(
 			<Route exact={route.exact} path={route.path} render={(props) => (
-				<route.component key={i} {...props} />
+				<route.component key={i} data={data} {...props} />
 			)}/>
 		))}
 	</div>

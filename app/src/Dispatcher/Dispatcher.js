@@ -1,34 +1,48 @@
 // AppDispatcher.js
-import { Dispatcher } from 'flux'
-// import { getStore, getPageData, getMoreItems } from '../Actions/actions'
+import {
+    Dispatcher
+} from 'flux'
+import {
+    getStore,
+    getUserData,
+    sendUserText,
+    trainNeuralNet,
+    receiveIncomingResponse
+} from '../Actions/Actions'
 
 const AppDispatcher = new Dispatcher()
 
-// Register callback with AppDispatcher
 AppDispatcher.register((payload) => {
 
-  let action = payload.action
+    let action = payload.action
 
-  switch(action) {
+    switch (action) {
 
-    case 'get-app-store':
-      getStore()
-      break
+        case 'get-app-store':
+            getStore()
+            break
 
-    case 'get-page-data':
-      getPageData(payload.page_slug, payload.post_slug)
-      break
+        case 'get-user-data':
+            getUserData(payload.user_id)
+            break
 
-    case 'get-more-items':
-      getMoreItems()
-      break
+        case 'send-user-text':
+            sendUserText(payload.message)
+            break
+        case 'receive-incoming-reponse':
+            receiveIncomingResponse()
+            break
 
-    default:
-      return true
+        case 'train-neural-net':
+            trainNeuralNet(payload.content)
+            break
 
-  }
+        default:
+            return true
 
-  return true
+    }
+
+    return true
 
 })
 

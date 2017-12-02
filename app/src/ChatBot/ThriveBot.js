@@ -1,22 +1,29 @@
 import React, { Component } from 'react'
 import Firebase from '../firebase.js'
 import VoiceCommandBot from './VoiceCommandBot'
-// const apiai = require('apiai');
-// const app = apiai("<your client access token>");
-// const request = app.textRequest('<Your text query>', {
-//     sessionId: '<unique session id>'
-// });
+import Dispatcher from '../Dispatcher/Dispatcher'
+import AppStore from '../AppStore/AppStore'
 
+const Text = (props) => (
+    <li className="Message Inbound">
+        <div className={`Message-Content ${props.from}_text`}>
+                {props.content}
+        </div>
+    </li>
+)
 
-// request.on('response', function(response) {
-//     console.log(response)
-// });
+class Messages extends Component {
+    render() {
+        return (
+            <ul className="Messages">
+                {this.props.messages.map((message) => {
+                    return <Text content={message} />
+                })}
+            </ul>
+        )
+    }
+}
 
-// request.on('error', function(error) {
-//     console.log(error)
-// });
-
-// request.end()
 
 export default class ThriveBot extends Component {
     constructor(props) {
@@ -30,12 +37,13 @@ export default class ThriveBot extends Component {
             number_of_siblings: null,
             revealChatBot: false,
             userText: '',
+            incomingText: '',
             messages: []
         }
 
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
+        
         this.setState({
             user_name: nextProps.user_name,
             goals: nextProps.goals,
@@ -46,13 +54,18 @@ export default class ThriveBot extends Component {
     }
     componentDidUpdate(nextProps) {
 
-        console.log(nextProps)
     }
-    shouldComponentUpdate(nextProps) {
-        return true
-    }
+    // shouldComponentUpdate(nextProps) {
+   
+    // }
     componentDidMount() {
 
+    }
+    handleIncomingResponse() {
+
+        const incoming_response = AppStore.data.incoming_message.content
+        console.log(incoming_response)
+        
     }
     makeReplyButton(options) {
         return (
@@ -71,11 +84,21 @@ export default class ThriveBot extends Component {
     }
     handleUserTextSubmit(e) {
         e.preventDefault()
-        console.log(e.target.value)
+
+        const _this = this
+        const user_message = this.state.userText
+        this.createTextMessage(user_message, 'User')
+
+        Dispatcher.dispatch({
+            action: 'send-user-text',
+            message: user_message
+        }, () => {
+            _this.handleIncomingResponse()
+        })
+       
     }
     handleUserTextInput(e) {
         e.preventDefault()
-        console.log(e.target.value)
         this.setState({
             userText: e.target.value
         })
@@ -91,15 +114,16 @@ export default class ThriveBot extends Component {
             </li>
         )
         messages.push(text)
-        this.setState({
-            messages: messages
-        })
+
+        this.state.messages.push(text)
+ 
     }
     revealChatBot(e){
         e.preventDefault()
-        this.createTextMessage('Hi', 'ChatBot')
+        
+        this.createTextMessage('Hello There', 'ChatBot')
         this.setState({
-            revealChatBot: true
+            revealChatBot: true,
         })
         
     }
@@ -107,7 +131,6 @@ export default class ThriveBot extends Component {
 
     render() {
 
-        
         const data = this.props
         const bubble_style = {
             backgroundColor: '#00091B'
@@ -127,19 +150,26 @@ export default class ThriveBot extends Component {
                 display: 'none'
             }
         }
+        // let user_text, incoming_message
+        // if ( this.state.userText ) {
+        //     user_text = this.createTextMessage(this.state.userText , 'User')
+        // }
+        // if ( this.state.incomingText ) {
+        //     incoming_message = this.createTextMessage(this.state.incomingText, 'ChatBot')
+        // }
+        const _autoFocus = this.state.revealChatBot ? true : false
+        
 
         return (
                 
                     <div id="ThriveBot">
                         <img src="/img/bot.svg" alt="" style={chat_icon_style} onClick={this.revealChatBot.bind(this)}/>
                         <div className="ThriveBot__inner" style={chat_hideOrShow}>
-                            <ul className="Messages">
-                                {this.state.messages.map((message) => {
-                                    return message
-                                })}
-                            </ul>
+
+                            <Messages messages={this.state.messages} />
+
                             <form onSubmit={this.handleUserTextSubmit.bind(this)}>
-                                <input id="userTextInput" type="text" placeholder="..." value={this.state.userText} onChange={this.handleUserTextInput.bind(this)}/>
+                                <input id="userTextInput" type="text" placeholder="..." value={this.state.userText} autoFocus={_autoFocus} onChange={this.handleUserTextInput.bind(this)}/>
                                 <button id="chatSend">Send</button>
                             </form>
                         </div>

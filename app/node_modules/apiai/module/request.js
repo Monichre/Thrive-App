@@ -51,8 +51,7 @@ Request.prototype._headers = function() {
 
     return {
         'Accept': 'application/json',
-        'Authorization': 'Bearer ' + self.clientAccessToken,
-        'api-request-source': self.requestSource
+        'Authorization': 'Bearer ' + self.clientAccessToken
     };
 };
 

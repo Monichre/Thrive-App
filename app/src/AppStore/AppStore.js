@@ -7,19 +7,21 @@ export default  _.extend({}, EventEmitter.prototype, {
         user: {},
         goal: {},
         message: {},
+        incoming_message: {},
         messages: [],
-        initEnrichment: false
+        initEnrichment: false,
+        test: false
     },
 
-    emitChange: () => {
+    emitChange: function() {
         this.emit('change')
     },
 
-    addChangeListener: (callback) => {
+    addChangeListener: function(callback) {
         this.on('change', callback)
     },
 
-    removeChangeListener: (callback) => {
+    removeChangeListener: function(callback) {
         this.removeListener('change', callback)
     }
 

@@ -10,6 +10,7 @@
 
 #Dashboard {
 	height: 100vh;
+	background-color: #94ebdc;
 }
 
 .dashboard__menu {
@@ -20,8 +21,9 @@
 
 .st-content {
 	overflow-y: scroll;
-	background-color: #a0ccf9;
-	background-image: linear-gradient(62deg, #a0ccf9 0%, #ece6f3 100%);
+	background-color: #94ebdc;
+	/* background-color: #a0ccf9; */
+	/* background-image: linear-gradient(62deg, #a0ccf9 0%, #ece6f3 100%); */
 }
 
 canvas {
@@ -54,7 +56,7 @@ canvas {
 	right: 0;
 	width: 0;
 	height: 0;
-	background: rgba(0, 0, 0, 0.2);
+	/* background: rgba(0, 0, 0, 0.2); */
 	content: '';
 	opacity: 0;
 	-webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;

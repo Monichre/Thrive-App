@@ -5,6 +5,7 @@
 }
 .Welcome__inner {
   position: relative;
+  height: 100%;
 }
 .Welcome .material-icons {
   color: #fff;
@@ -317,8 +318,7 @@
 	line-height: initial;
     font-size: 80px;
   color: #fff;
-  position: absolute;
-  left: 0; bottom: 0;
+
 }
 .slogan_text_subheader {
 	color: #32e6ff;
@@ -348,9 +348,9 @@
   height: 100%;
   background: rgba(18, 23, 56, 0.9);
   height: 100%;
-  position: fixed;
+  /* position: fixed;
   top: 0;
-  left: 0;
+  left: 0; */
 }
 
 .js .search {

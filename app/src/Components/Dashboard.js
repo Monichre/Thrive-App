@@ -131,7 +131,7 @@ export default class Dashboard extends Component {
         }
        let all_data = this.state
        const launchPersis = this.state.launchPersis
-    
+        console.log(this.props.data)
         
         return (
             <div id="Dashboard">
@@ -148,7 +148,7 @@ export default class Dashboard extends Component {
                                         <SpeechInterface summonPersis={this.handlePersisSummons.bind(this)}/>
                                     </div>
                                     <div className="chatbot__container">
-                                        <ThriveBot data={all_data} launchPersis={launchPersis}/>
+                                        <ThriveBot data={this.props.data} launchPersis={launchPersis}/>
                                     </div>  
                                 </div>
                             </div>
