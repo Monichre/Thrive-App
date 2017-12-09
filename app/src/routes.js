@@ -2,8 +2,8 @@ import React from 'react'
 import {Route} from 'react-router-dom'
 import Welcome from './Components/Welcome'
 import Dashboard from './Components/Dashboard'
-import SignUp from './Components/Authorization/SignUp'
-import Verification from './Components/Authorization/Verification'
+import SignUp from './Components/OnBoarding/SignUp'
+import Verification from './Components/OnBoarding/Verification'
 import AppStore from './AppStore/AppStore'
 
 const site_routes = [

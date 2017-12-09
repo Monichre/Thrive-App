@@ -74,5 +74,3 @@ export default class Particle extends Component {
         )
     }
 }
-
-

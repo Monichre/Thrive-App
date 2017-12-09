@@ -786,8 +786,9 @@ button.fs-continue,
 	display: block;
 	margin: 30px auto 20px;
 	margin: 0 auto 20px;
-	width: 100%;
-	height: 100%;
+	width: 200px;
+	z-index: 100;
+	height: 200px;
 	opacity: 0;
 	cursor: pointer;
 }
@@ -860,11 +861,26 @@ button.fs-continue,
 	
 }
 
-.fs-fields .fs-radio-custom label.radio-conversion::after {
-	
+.fs-fields .fs-radio-conversion label:active .fs-fields .fs-radio-conversion label::after {
+	opacity: 1;
+}
+.fs-fields .fs-radio-custom label:active .fs-fields .fs-radio-custom label::after {
+	opacity: 1;
 }
 
 .fs-fields .fs-radio-custom label:hover::after,
+.fs-fields input[type="radio"]:focus + label::after,
+.fs-fields input[type="radio"]:checked + label::after {
+	opacity: 1;
+}
+.fs-fields .fs-radio-custom label:selected::after,.fs-fields .fs-radio-custom label:active::after,
+.fs-fields .fs-radio-custom label:hover::after,
+.fs-fields input[type="radio"]:focus + label::after,
+.fs-fields input[type="radio"]:checked + label::after {
+	opacity: 1;
+}
+.fs-fields .fs-radio-mobile label:selected::after,.fs-fields .fs-radio-mobile label:active::after,
+.fs-fields .fs-radio-mobile label:hover::after,
 .fs-fields input[type="radio"]:focus + label::after,
 .fs-fields input[type="radio"]:checked + label::after {
 	opacity: 1;
@@ -926,7 +942,7 @@ button.fs-continue,
 
 .fs-fields input.fs-mark {
 	padding-left: 1em;
-	/* background-image: url(../img/dollar.svg); */
+	background-image: url(/img/fitness.png);
 	background-position: 0% 0.15em;
 	background-size: auto 75%;
 	background-repeat: no-repeat;
@@ -937,6 +953,20 @@ button.fs-continue,
 	background-position: 0% 0.15em, top right;
 	background-size: auto 75%, 18px;
 	background-repeat: no-repeat;
+}
+.fs-fields label.fitness, .fs-fields label.finance, .fs-fields label.new-skill {
+	background-position: 0% 0.15em, top right;
+	background-size: auto 75%, 18px;
+	background-repeat: no-repeat;
+}
+.fs-fields label.fitness {
+	background-image: url(/img/fitness.png);
+}
+.fs-fields label.finance {
+	background-image: url(/img/finance.png);
+}
+.fs-fields label.new-skill  {
+	background-image: url(/img/lightbulb.png);
 }
 
 /* placeholder */
