@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import '../../css/signup.css'
 import Firebase from '../../firebase'
 import classie from 'classie'
+import Axios from 'axios'
+
 
 
 export default class OnBoardForm extends Component {
@@ -23,31 +25,32 @@ export default class OnBoardForm extends Component {
       salary: '',
       number_of_siblings: '',
       birth_order: '',
-      social_platform_data: {
+      facebook_platform_data: {
         accessToken: '',
         photo: ''
+      },
+      google_platform_data: {
+        accessToken: ''
       }
     }
 
   }
   componentDidMount() {
 
-    this.initCalendarSync()
-
     window.addEventListener('load', function () {
       const formWrap = document.getElementById('fs-form-wrap')
 
       new window.FForm(formWrap, {
         onReview: function () {
-          classie.add(document.body, 'overview'); // for demo purposes only 
+          classie.add(document.body, 'overview')
         }
       })
     }, false)
 
   }
   sendVerificationEmail() {
-    let user = Firebase.auth().currentUser;
 
+    let user = Firebase.auth().currentUser;
     user.sendEmailVerification().then(() => {
       console.log('email sent')
     }).catch((error) => {
@@ -57,35 +60,60 @@ export default class OnBoardForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
+
     let _this = this
-    Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.SESSION)
-      .then(() => {
+    const credential = Firebase.auth.EmailAuthProvider().credential(this.state.email, this.state.password)
 
-        return Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-          .catch((error, callback) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            console.log(errorCode, errorMessage)
-          })
-          .then((user) => {
-            console.log(user)
-            localStorage.setItem('user_id', JSON.stringify(user.uid))
-            this.sendVerificationEmail()
-            this.initializeNewUserGoals(user)
-              .catch((error) => {
-                console.log(error)
-              })
-              .then((response) => {
-                console.log("child route created, redirecting url")
-                _this.props.history.push('await-verification')
-              })
-          })
-      })
-      .catch((error) => {
+    Firebase.auth().currentUser.link(credential).then((user) => {
 
-        var errorCode = error.code;
-        var errorMessage = error.message;
-      })
+      console.log("Account linking success on form submit", user)
+      localStorage.setItem('user_id', JSON.stringify(user.uid))
+
+      this.sendVerificationEmail()
+      this.initializeNewUserGoals(user)
+        .catch((error) => {
+          console.log(error)
+        })
+        .then((response) => {
+          console.log("child route created, redirecting url")
+          console.log(response)
+          _this.props.history.push('await-verification')
+        })
+
+    }, (error) => {
+
+      console.log("Account linking error", error);
+
+    });
+
+    // Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.SESSION)
+    //   .then(() => {
+
+    //     return Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    //       .catch((error, callback) => {
+    //         const errorCode = error.code
+    //         const errorMessage = error.message
+    //         console.log(errorCode, errorMessage)
+    //       })
+    //       .then((user) => {
+    //         console.log(user)
+    //         localStorage.setItem('user_id', JSON.stringify(user.uid))
+    //         this.sendVerificationEmail()
+    //         this.initializeNewUserGoals(user)
+    //           .catch((error) => {
+    //             console.log(error)
+    //           })
+    //           .then((response) => {
+    //             console.log("child route created, redirecting url")
+    //             _this.props.history.push('await-verification')
+    //           })
+    //       })
+    //   })
+    //   .catch((error) => {
+
+    //     var errorCode = error.code;
+    //     var errorMessage = error.message;
+    //   })
 
   }
   initializeNewUserGoals(user) {
@@ -112,6 +140,8 @@ export default class OnBoardForm extends Component {
     const new_goal_key = Firebase.database().ref('users/' + user.uid).child('goals').push().key
     const user_goal_info = {}
     const updates = {}
+
+
     user_goal_info.goal = this.state.goal
     user_goal_info.milestone = this.state.milestone
     user_goal_info.commitment_level = this.state.commitment_level
@@ -199,122 +229,161 @@ export default class OnBoardForm extends Component {
   handleFacebookSync(e) {
     e.preventDefault()
 
-    console.log(e.target.value)
+    const facebookProvider = new Firebase.auth.FacebookAuthProvider()
+    const existing_user = Firebase.auth().currentUser
+    console.log(existing_user)
 
-    const provider = new Firebase.auth.FacebookAuthProvider()
-    provider.addScope('public_profile, email')
-    provider.setCustomParameters({
+    facebookProvider.addScope('public_profile, email')
+    facebookProvider.setCustomParameters({
       'display': 'popup'
     })
 
-    Firebase.auth().signInWithPopup(provider).then((result) => {
 
-      console.log(result)
-      const token = result.credential.acessToken
+    if (existing_user) {
 
-      const user = result.user
-      console.log(user)
+      existing_user.linkWithPopup(facebookProvider).then((result) => {
 
-    }).catch((error) => {
-      console.log(error)
+        const credential = result.credential
+        const token = result.credential.accessToken
+        const user = result.user
 
-      const errorCode = error.code
-      const errorMessage = error.message
-      const email = error.email
-      const credential = error.credential
+        this.setState({
+            facebook_platform_data: {
+              accessToken: token,
+              timezone: result.additionalUserInfo.profile.timezone,
+              photo: result.additionalUserInfo.profile.picture.data.url
+            }
+          })
 
+        // // Sign user in again with new facebook data
+        // Firebase.auth().signInWithCredential(credential).then((user) => {
+
+        //   console.log(user)
+        //   let previous_user = Firebase.auth().currentUser
+        //   let current_user = user
+        //   return user.delete().then(() => {
+
+        //     return previous_user.link(credential)
+
+        //   }).then(() => {
+        //     return Firebase.auth().signInWithCredential(credential);
+        //   })
+        // }).catch((err) => {
+        //   console.log(err)
+        // })
+
+      }).catch((error) => {
+
+        console.log(error)
+
+      })
+    } else {
+
+      Firebase.auth().signInWithPopup(facebookProvider).then((result) => {
+        console.log(result)
+        const token = result.credential.acessToken
+        const user = result.user
+        console.log(user)
+
+        this.setState({
+          facebook_platform_data: {
+            accessToken: token,
+            timezone: result.additionalUserInfo.profile.timezone,
+            photo: result.additionalUserInfo.profile.picture.data.url
+          }
+        })
+
+      }).catch((error) => {
+        console.log(error)
+
+        const errorCode = error.code
+        const errorMessage = error.message
+        const email = error.email
+        const credential = error.credential
+
+      })
+    }
+  }
+
+  handleGoogleSync(e) {
+    e.preventDefault()
+
+    const googleProvider = new Firebase.auth.GoogleAuthProvider()
+    const existing_user = Firebase.auth().currentUser
+    console.log(existing_user)
+
+    googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+    googleProvider.addScope('https://www.googleapis.com/auth/calendar')
+    googleProvider.setCustomParameters({
+      'display': 'popup'
     })
 
-  }
-  handleInstagramSync(e) {
-    e.preventDefault()
-    console.log(e.target.value)
-  }
-  authorizeGoogleCalendar(credentials, callback) {
-  }
+    if (existing_user) {
+      existing_user.linkWithPopup(googleProvider).then((result) => {
 
-getCalendar(auth) {
+        const credential = result.credential
+        const token = result.credential.token
+        const user = result.user
 
-  const calendar = window.gapi.client.calendar
+        // Sign user in again with new facebook data
+        Firebase.auth().signInWithCredential(credential).then((user) => {
 
-  calendar.events.list({
-    auth: auth,
-    calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
-    maxResults: 10,
-    singleEvents: true,
-    orderBy: 'startTime'
-  }, (err, response) => {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    var events = response.items;
+          console.log('Google linked with pop up:' + user)
 
-    if (events.length == 0) {
-      console.log('No upcoming events found.');
+          // Merge current sign in data with existing sign in data (from Google)
+          let current_user = user
+          return user.delete().then(() => {
+
+            return existing_user.link(credential)
+
+          }).then(() => {
+            return Firebase.auth().signInWithCredential(credential);
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
+
+        this.setState({
+          google_platform_data: {
+            accessToken: token
+          }
+        })
+
+      }).catch((error) => {
+        console.log(error)
+      })
+
     } else {
-      console.log('Upcoming 10 events:');
-      for (var i = 0; i < events.length; i++) {
-        var event = events[i];
-        var start = event.start.dateTime || event.start.date;
-        console.log('%s - %s', start, event.summary);
-      }
+      Firebase.auth().signInWithPopup(googleProvider).then((result) => {
+
+        const token = result.credential.accessToken
+        const user = result.user
+
+        this.setState({
+          google_platform_data: {
+            accessToken: token
+          }
+        })
+      })
+
     }
-  })
-}
-handleCalendarSync() {
+  }
+  initCalendarSync() {
 
-  const calendar = window.syncCalendar()
-  
-  calendar.events.list({
-    calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
-    maxResults: 10,
-    singleEvents: true,
-    orderBy: 'startTime'
-  }, (err, response) => {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
+    const CLIENT_ID = '869272160764-0fgctm8m6n1hv4aotq2ccrnauodj2g4q.apps.googleusercontent.com'
+    const API_KEY = 'AIzaSyBa7AHgeeKObEk0AoNNi8E3AGE7HVIdo0g'
+    const CLIENT_SECRET = 'HFwHOo6TNdepBJ31UeYRo7Fw'
+    const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
+    const SCOPES = "https://www.googleapis.com/auth/calendar"
+
+    const credentials = {
+      clientId: CLIENT_ID,
+      clientSecret: CLIENT_SECRET
     }
-    var events = response.items;
 
-    if (events.length == 0) {
-      console.log('No upcoming events found.');
-    } else {
-      console.log('Upcoming 10 events:');
-      for (var i = 0; i < events.length; i++) {
-        var event = events[i];
-        var start = event.start.dateTime || event.start.date;
-        console.log('%s - %s', start, event.summary);
-      }
-    }
-  })
-}
-initCalendarSync(){
-
-
-
-  const CLIENT_ID = '869272160764-0fgctm8m6n1hv4aotq2ccrnauodj2g4q.apps.googleusercontent.com'
-  const API_KEY = 'AIzaSyBa7AHgeeKObEk0AoNNi8E3AGE7HVIdo0g'
-  const CLIENT_SECRET = 'HFwHOo6TNdepBJ31UeYRo7Fw'
-  const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
-  const SCOPES = "https://www.googleapis.com/auth/calendar"
-
-  const credentials = {
-    CLIENT_ID: CLIENT_ID,
-    API_KEY: API_KEY,
-    CLIENT_SECRET: CLIENT_SECRET,
-    DISCOVERY_DOCS: DISCOVERY_DOCS,
-    SCOPES: SCOPES
   }
 
-  window.initCalendar(credentials)
-  
-}
-
-render() {
+  render() {
     return (
       <div className="fs-form-wrap" id="fs-form-wrap">
 
@@ -410,9 +479,8 @@ render() {
             <li data-input-trigger>
               <label className="fs-field-label fs-anim-upper" data-info="We'd like to stay out of your way by working behind the scenes">Please sync your calendar and social media platforms</label>
               <div className="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
-                <span><input id="facebookInput" name="facebookInput" type="radio" onClick={this.handleFacebookSync.bind(this)} value='low' /><label for="q3b" className="radio-conversion ">Facebook</label></span>
-                <span><input id="InstagramInput" name="InstagramInput" type="radio" onClick={this.handleInstagramSync.bind(this)} value='medium' /><label for="q3c" className="radio-social ">Instagram</label></span>
-                <span><input id="calendarInput" name="calendarInput" type="radio" onClick={this.handleCalendarSync.bind(this)} value='high' /><label for="q3a" className="radio-mobile ">Calendar</label></span>
+                <span><input id="facebookInput" name="facebookInput" type="radio" onClick={this.handleFacebookSync.bind(this)} /><label for="q3b" className="radio-conversion ">Facebook</label></span>
+                <span><input id="calendarInput" name="calendarInput" type="radio" onClick={this.handleGoogleSync.bind(this)} /><label for="q3a" className="radio-mobile ">Google</label></span>
               </div>
             </li>
           </ol>
