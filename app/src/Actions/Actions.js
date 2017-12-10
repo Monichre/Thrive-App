@@ -1,6 +1,13 @@
 import _ from 'lodash'
 import AppStore from '../AppStore/AppStore'
-import {config} from '../config'
+// import {config} from '../config'
+
+
+const config = {
+    DEVELOPER_ACCESS_TOKEN: 'fcea36c1fd46462ea673ef140affcc4d',
+    CLIENT_ACCESS_TOKEN: 'a17884aa86924c23b2a63479a0bfa814'
+}
+
 const ApiAi = require('apiai')
 const client = ApiAi(config.CLIENT_ACCESS_TOKEN)
 const sessionId = JSON.parse(localStorage.getItem('user_id'))
