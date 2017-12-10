@@ -50,7 +50,7 @@ export default class OnBoardForm extends Component {
   }
   sendVerificationEmail() {
 
-    let user = Firebase.auth().currentUser;
+    let user = Firebase.auth().currentUser
     user.sendEmailVerification().then(() => {
       console.log('email sent')
     }).catch((error) => {
@@ -61,96 +61,66 @@ export default class OnBoardForm extends Component {
   handleSubmit(e) {
     e.preventDefault()
 
-    let _this = this
-    const credential = Firebase.auth.EmailAuthProvider().credential(this.state.email, this.state.password)
+    const _this = this
 
-    Firebase.auth().currentUser.link(credential).then((user) => {
-
-      console.log("Account linking success on form submit", user)
-      localStorage.setItem('user_id', JSON.stringify(user.uid))
+    Firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((response) => {
+      console.log(response)
 
       this.sendVerificationEmail()
-      this.initializeNewUserGoals(user)
-        .catch((error) => {
-          console.log(error)
-        })
-        .then((response) => {
-          console.log("child route created, redirecting url")
-          console.log(response)
-          _this.props.history.push('await-verification')
-        })
-
-    }, (error) => {
-
-      console.log("Account linking error", error);
-
-    });
-
-    // Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.SESSION)
-    //   .then(() => {
-
-    //     return Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    //       .catch((error, callback) => {
-    //         const errorCode = error.code
-    //         const errorMessage = error.message
-    //         console.log(errorCode, errorMessage)
-    //       })
-    //       .then((user) => {
-    //         console.log(user)
-    //         localStorage.setItem('user_id', JSON.stringify(user.uid))
-    //         this.sendVerificationEmail()
-    //         this.initializeNewUserGoals(user)
-    //           .catch((error) => {
-    //             console.log(error)
-    //           })
-    //           .then((response) => {
-    //             console.log("child route created, redirecting url")
-    //             _this.props.history.push('await-verification')
-    //           })
-    //       })
-    //   })
-    //   .catch((error) => {
-
-    //     var errorCode = error.code;
-    //     var errorMessage = error.message;
-    //   })
-
+      this.initializeNewUserGoals()
+  
+    })
   }
-  initializeNewUserGoals(user) {
+  initializeNewUserGoals() {
 
-    var user = Firebase.auth().currentUser
-    console.log(user)
+    const user = Firebase.auth().currentUser
+    const _this = this
+    console.log(_this)
+
     user.updateProfile({
+
       displayName: this.state.name,
+
     }).then((response) => {
-      console.log(user)
-    }, (error) => {
+      
+
+      const new_user_key = Firebase.database().ref('users/' + user.uid).set({
+        username: this.state.name,
+        occupation: this.state.occupation,
+        salary: this.state.salary,
+        number_of_siblings: this.state.number_of_siblings,
+        birth_order: this.state.birth_order,
+        facebook_platform_data: this.state.facebook_platform_data,
+        google_platform_data: this.state.google_platform_data
+      })
+  
+      const new_goal_key = Firebase.database().ref('users/' + user.uid).child('goals').push().key
+      const user_goal_info = {}
+      const updates = {}
+  
+  
+      user_goal_info.goal = this.state.goal
+      user_goal_info.milestone = this.state.milestone
+      user_goal_info.commitment_level = this.state.commitment_level
+      user_goal_info.meta_goal_intent = this.state.meta_goal_intent
+      user_goal_info.success_track = this.state.success_track
+      user_goal_info.free_time = this.state.free_time
+      user_goal_info.education_level = this.state.education_level
+      user_goal_info.success_track = this.state.success_track
+  
+  
+      Firebase.database().ref('users/' + user.uid + '/goals/' + new_goal_key).set({
+        goal: user_goal_info
+      })
+
+      _this.props.history.push('await-verification')
+
+    }).catch((error) => {
       console.log(error)
     })
-    console.log(user)
+    
 
-    const new_user_key = Firebase.database().ref('users/' + user.uid).set({
-      username: this.state.name,
-      occupation: this.state.occupation,
-      salary: this.state.salary,
-      number_of_siblings: this.state.number_of_siblings,
-      birth_order: this.state.birth_order
-    })
-
-    const new_goal_key = Firebase.database().ref('users/' + user.uid).child('goals').push().key
-    const user_goal_info = {}
-    const updates = {}
-
-
-    user_goal_info.goal = this.state.goal
-    user_goal_info.milestone = this.state.milestone
-    user_goal_info.commitment_level = this.state.commitment_level
-    user_goal_info.current_emotional_state = this.state.current_emotional_state
-    user_goal_info.anticipated_emotional_state = this.state.anticipated_emotional_state
-
-    return Firebase.database().ref('users/' + user.uid + '/goals/' + new_goal_key).set({
-      goal: user_goal_info
-    })
+  
 
   }
   handleName(e) {
@@ -182,11 +152,6 @@ export default class OnBoardForm extends Component {
     e.preventDefault()
     console.log(e.target)
     this.setState({ commitment: e.target.value })
-  }
-  handleCurrentEmotionalState(e) {
-    e.preventDefault()
-    console.log(e.target.value)
-    this.setState({ current_emotional_state: e.target.value })
   }
   handleIntentOfGoal(e) {
     e.preventDefault()
@@ -254,24 +219,6 @@ export default class OnBoardForm extends Component {
               photo: result.additionalUserInfo.profile.picture.data.url
             }
           })
-
-        // // Sign user in again with new facebook data
-        // Firebase.auth().signInWithCredential(credential).then((user) => {
-
-        //   console.log(user)
-        //   let previous_user = Firebase.auth().currentUser
-        //   let current_user = user
-        //   return user.delete().then(() => {
-
-        //     return previous_user.link(credential)
-
-        //   }).then(() => {
-        //     return Firebase.auth().signInWithCredential(credential);
-        //   })
-        // }).catch((err) => {
-        //   console.log(err)
-        // })
-
       }).catch((error) => {
 
         console.log(error)
@@ -281,7 +228,7 @@ export default class OnBoardForm extends Component {
 
       Firebase.auth().signInWithPopup(facebookProvider).then((result) => {
         console.log(result)
-        const token = result.credential.acessToken
+        const token = result.credential.accessToken
         const user = result.user
         console.log(user)
 
@@ -322,26 +269,8 @@ export default class OnBoardForm extends Component {
       existing_user.linkWithPopup(googleProvider).then((result) => {
 
         const credential = result.credential
-        const token = result.credential.token
+        const token = result.credential.accessToken
         const user = result.user
-
-        // Sign user in again with new facebook data
-        Firebase.auth().signInWithCredential(credential).then((user) => {
-
-          console.log('Google linked with pop up:' + user)
-
-          // Merge current sign in data with existing sign in data (from Google)
-          let current_user = user
-          return user.delete().then(() => {
-
-            return existing_user.link(credential)
-
-          }).then(() => {
-            return Firebase.auth().signInWithCredential(credential);
-          })
-        }).catch((err) => {
-          console.log(err)
-        })
 
         this.setState({
           google_platform_data: {
@@ -386,13 +315,13 @@ export default class OnBoardForm extends Component {
   render() {
     return (
       <div className="fs-form-wrap" id="fs-form-wrap">
-
         <form id="myform" className="fs-form fs-form-full" autocomplete="off" onSubmit={this.handleSubmit.bind(this)}>
           <ol className="fs-fields">
             <li id="intro">
               Welcome. Thrive is an AI powered goal engine. Capitalizing cutting edge success psychology, we've created
-                              an intelligent platform based on decades of research in the behavioral, cognitive, linguistic sciences. The following
-                              is a brief overview to get a sense of what you hope to accomplish. We will familiarize you shortly with our patented success tracks.
+              an intelligent platform based on decades of research in the behavioral, cognitive, linguistic sciences. The following
+              is a brief overview to get a sense of what you hope to accomplish. We will familiarize you shortly with our patented 
+              success tracks.
             </li>
             <li>
               <label className="fs-field-label fs-anim-upper" for="name">What's your name?</label>
@@ -428,7 +357,7 @@ export default class OnBoardForm extends Component {
             </li>
             <li>
               <label className="fs-field-label fs-anim-upper" for="goal_intent">What will this goal help you achieve?</label>
-              <textarea value={this.state.anticipated_emotional_state} onChange={this.handleIntentOfGoal.bind(this)} className="fs-anim-lower" id="anticipated_emotional_state" name="anticipated_emotional_state" placeholder="Describe here"></textarea>
+              <textarea value={this.state.meta_goal_intent} onChange={this.handleIntentOfGoal.bind(this)} className="fs-anim-lower" id="anticipated_emotional_state" name="anticipated_emotional_state" placeholder="Describe here"></textarea>
             </li>
 
             <li data-input-trigger>

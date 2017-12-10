@@ -41,22 +41,6 @@ class Header extends Component {
 
     render() {
 
-        // let authLink,
-        //     userName;
-        // var logo = "img/thrive-logo.png",
-        //     logoImgStyle = {
-        //         display: "inline-block"
-        //     };
-		//
-        // if (this.props.loggedIn) {
-        //     authLink = <Link to="" onClick={this.onLogoutClick.bind(this)}>Log Out</Link>;
-        //     userName = <span>Welcome {this.props.userName}
-        //     </span>;
-        // } else {
-        //     authLink = <Link to="" onClick={this.onLoginClick.bind(this)}>Log In</Link>;
-        //     userName = '';
-        // }
-
         return (
 			<nav className="navbar navbar-transparent navbar-absolute">
 				<div className="container-fluid">
