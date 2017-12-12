@@ -22,6 +22,8 @@
     "material-design-icons": "^3.0.1",
     "material-ui": "^1.0.0-alpha.19",
     "material-ui-icons": "^1.0.0-alpha.19",
+    "mdbootstrap": "^4.4.3",
+    "mdbreact": "^4.0.0",
     "modernizr": "^3.5.0",
     "node-sass-chokidar": "0.0.3",
     "periodicjs.component.fullscreen-form": "^1.0.0",

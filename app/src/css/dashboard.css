@@ -781,3 +781,13 @@ canvas {
 .count-particles {
 	border-radius: 0 0 3px 3px;
 }
+
+/* Goal Container */
+.goal__container {
+	padding-top: 10%;
+}
+.card {
+	min-height: 200px;
+	background: #fff;
+	padding: 20px;
+}

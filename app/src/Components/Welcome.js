@@ -134,19 +134,20 @@ export default class Welcome extends Component {
 		const current_user = nextProps.data.currentUser
 
 		if(current_user.loggedIn) {
-			const user_id = localStorage.getItem('user_id')
-			localStorage.setItem('current_user', current_user)
+			const user_id = JSON.parse(localStorage.getItem('user_id'))
+			localStorage.setItem('current_user', JSON.stringify(current_user))
+			console.log(localStorage.getItem('current_user'))
 			
 			this.props.history.push(`users/dashboard/${user_id}`)
 		}
 	}
 	componentDidMount() {
 		
-		if(this.props.data.currentUser.loggedIn) {
-			const user_id = localStorage.getItem('user_id')
-			console.log(user_id)
-			this.props.history.push(`users/dashboard/${user_id}`)
-		}
+		// if(this.props.data.currentUser.loggedIn) {
+		// 	const user_id = localStorage.getItem('user_id')
+		// 	console.log(user_id)
+		// 	this.props.history.push(`users/dashboard/${user_id}`)
+		// }
 
 		let searchContainer = document.querySelector('.search')
 		let inputSearch = searchContainer.querySelector('.search__input')
