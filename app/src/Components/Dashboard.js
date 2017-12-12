@@ -7,6 +7,7 @@ import Header from './Header.js'
 import SideBar from './Partials/SideBar.js'
 import Particle from './Partials/Particle.js'
 import '../css/dashboard.css'
+import AppDispatcher from '../Dispatcher/Dispatcher'
 
 
 function hasParentClass(e, classname) {
@@ -23,11 +24,7 @@ export default class Dashboard extends Component {
         super(props);
 
         this.state = {
-            user_name: '',
-            goals: [],
-            occupation: '',
-            birth_order: '',
-            number_of_siblings: null,
+            current_user: null,
             launchPersis: false
         }
     }
@@ -78,6 +75,25 @@ export default class Dashboard extends Component {
         // Firebase.database().ref('/users/' + this.props.user.clientID + '/goals/').push(goal);
         
     }
+    componentWillMount() {
+
+        const userId = JSON.parse(localStorage.getItem('user_id'))
+        let data
+        const current_user = localStorage.getItem('current_user')
+        console.log(current_user)
+
+        if(current_user) {
+            console.log(current_user)
+            this.setState({
+                current_user: current_user
+            })
+        } else {
+            AppDispatcher.dispatch({
+                action: 'get-user-data',
+                user_id: userId
+            })
+        }
+    }
     componentDidMount() {
         this.init()
 
@@ -85,33 +101,33 @@ export default class Dashboard extends Component {
         let data
         const _this = this
 
-        if (userId) {
-            let user_data = Firebase.database().ref('/users/' + userId)
-            let goal_data = Firebase.database().ref('users/' + userId + '/goals')
-            let goals = []
+        // if (userId) {
+        //     let user_data = Firebase.database().ref('/users/' + userId)
+        //     let goal_data = Firebase.database().ref('users/' + userId + '/goals')
+        //     let goals = []
             
-            // Goals are stored as child node in the database - access them separately
-            goal_data.on('value', (snapshot) => {
-                snapshot.forEach(childSnap => {
-                    goals.push(childSnap.val().goal)
-                })
-            })
+        //     // Goals are stored as child node in the database - access them separately
+        //     goal_data.on('value', (snapshot) => {
+        //         snapshot.forEach(childSnap => {
+        //             goals.push(childSnap.val().goal)
+        //         })
+        //     })
             
-            // User data is the parent node - access that data here and add the goals from earlier
-            user_data.on('value', (snapshot) => {
-                data = snapshot.val()
-                console.log(data)
-                _this.setState({
-                    user_name: data.username,
-                    goals: goals,
-                    occupation: data.occupation,
-                    birth_order: data.birth_order,
-                    number_of_siblings: data.number_of_siblings
-                })
-            })
-        } else {
-            _this.props.history.push(`/`)
-        }
+        //     // User data is the parent node - access that data here and add the goals from earlier
+        //     user_data.on('value', (snapshot) => {
+        //         data = snapshot.val()
+        //         console.log(data)
+        //         _this.setState({
+        //             user_name: data.username,
+        //             goals: goals,
+        //             occupation: data.occupation,
+        //             birth_order: data.birth_order,
+        //             number_of_siblings: data.number_of_siblings
+        //         })
+        //     })
+        // } else {
+        //     _this.props.history.push(`/`)
+        // }
     }
     launchPersisChat() {
 
@@ -122,8 +138,7 @@ export default class Dashboard extends Component {
             launchPersis: true
         })    
     }
-    /* <Particle /> */
-
+    
     render() {
         const icon_style = {
             height: '20px',
@@ -131,7 +146,7 @@ export default class Dashboard extends Component {
         }
        let all_data = this.state
        const launchPersis = this.state.launchPersis
-        console.log(this.props.data)
+        console.log(this.props.data.currentUser)
         
         return (
             <div id="Dashboard">
@@ -144,6 +159,8 @@ export default class Dashboard extends Component {
                                     <div id="st-trigger-effects" className="dashboard__menu">
                                         <span className="menu__trigger" data-effect="st-effect-12"><img style={icon_style} src="/img/dashboard-f.svg" alt="" /></span>
                                     </div>
+
+
                                     <div className="speechInterface__container">
                                         <SpeechInterface summonPersis={this.handlePersisSummons.bind(this)}/>
                                     </div>

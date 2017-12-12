@@ -121,23 +121,27 @@ export default class Welcome extends Component {
 		inputSearch.value = '';
 		document.querySelector('.slogan').style.display = 'block'
 	}
-	componentWillMount() {
-		if(this.props.data.currentUser.loggedIn) {
-			const user_id = localStorage.getItem('user_id')
-			this.props.history.push(`users/dashboard/${user_id}`)
-		}
+	// componentWillMount() {
+	// 	if(this.props.data.currentUser.loggedIn) {
+	// 		const user_id = localStorage.getItem('user_id')
+	// 		this.props.history.push(`users/dashboard/${user_id}`)
+	// 	}
 	
-	}
+	// }
 	componentWillReceiveProps(nextProps) {
+
 		console.log(nextProps)
-		if(nextProps.data.currentUser.loggedIn) {
+		const current_user = nextProps.data.currentUser
+
+		if(current_user.loggedIn) {
 			const user_id = localStorage.getItem('user_id')
-			console.log(user_id)
+			localStorage.setItem('current_user', current_user)
+			
 			this.props.history.push(`users/dashboard/${user_id}`)
 		}
 	}
 	componentDidMount() {
-		console.log(this.props)
+		
 		if(this.props.data.currentUser.loggedIn) {
 			const user_id = localStorage.getItem('user_id')
 			console.log(user_id)

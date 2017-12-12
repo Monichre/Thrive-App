@@ -44,6 +44,26 @@ export const getStore = (callback) => {
         callback(false, AppStore)
     }
 }
+export const getUserData = (user_id) => {
+    
+    if (!user_id) {
+        alert('ERROR, no user id')
+    } 
+    const user = Firebase.auth().app.currentUser
+    console.log(user)
+
+    let user_data = Firebase.database().ref('/users/' + user_id)
+    let goal_data = Firebase.database().ref('users/' + user_id + '/goals')
+    
+    let goals = []
+    
+    
+    goal_data.on('value', (snapshot) => {
+        snapshot.forEach(childSnap => {
+            goals.push(childSnap.val().goal)
+        })
+    })
+}
 export const initializeUserWithGoals = (user_data) => {
     console.log(user_data)
 
@@ -127,10 +147,7 @@ export const signUserIn = (credentials) => {
             })
         })
 }
-export const getUserData = (user_id) => {
-    console.log(user_id)
-    AppStore.emitChange()
-}
+
 export const receiveIncomingResponse = () => {
     return AppStore.data.incoming_message
 }
