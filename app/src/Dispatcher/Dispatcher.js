@@ -5,7 +5,9 @@ import {
 import {
     getStore,
     getUserData,
+    initializeUserWithGoals,
     sendUserText,
+    signUserIn,
     trainNeuralNet,
     receiveIncomingResponse
 } from '../Actions/Actions'
@@ -20,6 +22,14 @@ AppDispatcher.register((payload) => {
 
         case 'get-app-store':
             getStore()
+            break
+            
+        case 'initialize-user-with-goals':
+            initializeUserWithGoals(payload.user_data)
+            break
+        
+        case 'sign-user-in':
+            signUserIn(payload.credentials)
             break
 
         case 'get-user-data':

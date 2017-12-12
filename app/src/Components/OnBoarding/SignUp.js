@@ -638,12 +638,18 @@ window.SelectFx = SelectFx;
 
 export default class SignUp extends Component {
 
+  reRouteOnFormSubmit(){
+    console.log('form submitted')
+    this.props.history.push('await-verification')
+  }
+
   render() {
+    console.log(this.props)
     return (
       <div id="SignUp">
         <div className="signup_container">
           <div className="fs-title"><h1>You're about to Thrive</h1></div>
-            <OnBoardForm />
+            <OnBoardForm reRouteOnFormSubmit={this.reRouteOnFormSubmit.bind(this)}/>
         </div>
       </div>
     )

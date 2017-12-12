@@ -4,8 +4,7 @@ import _ from 'lodash'
 export default  _.extend({}, EventEmitter.prototype, {
   
     data: {
-        user: {},
-        goal: {},
+        currentUser: {},
         message: {},
         incoming_message: {},
         messages: [],

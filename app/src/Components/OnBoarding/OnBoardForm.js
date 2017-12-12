@@ -3,6 +3,7 @@ import '../../css/signup.css'
 import Firebase from '../../firebase'
 import classie from 'classie'
 import Axios from 'axios'
+import AppDispatcher from '../../Dispatcher/Dispatcher'
 
 
 
@@ -33,9 +34,10 @@ export default class OnBoardForm extends Component {
         accessToken: ''
       }
     }
-
+    
   }
   componentDidMount() {
+    console.log(this.props)
 
     window.addEventListener('load', function () {
       const formWrap = document.getElementById('fs-form-wrap')
@@ -61,67 +63,58 @@ export default class OnBoardForm extends Component {
   handleSubmit(e) {
     e.preventDefault()
 
+    const credential = Firebase.auth.EmailAuthProvider.credential(this.state.email, this.state.password)
+    console.log(credential)
     const _this = this
 
-    Firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((response) => {
-      console.log(response)
+    Firebase.auth().currentUser.linkWithCredential(credential).then((user) => {
+      console.log(user)
+      _this.sendVerificationEmail()
+      _this.initializeNewUserGoals()
+      _this.props.reRouteOnFormSubmit()
 
-      this.sendVerificationEmail()
-      this.initializeNewUserGoals()
-  
+    }).catch((err) => {
+      console.log(err)
     })
+    
+
+
+    // Firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((response) => {
+    //   console.log(response)
+
+  
+  
+    // })
   }
   initializeNewUserGoals() {
 
-    const user = Firebase.auth().currentUser
-    const _this = this
-    console.log(_this)
+    AppDispatcher.dispatch({
 
-    user.updateProfile({
+      action: 'initialize-user-with-goals',
 
-      displayName: this.state.name,
-
-    }).then((response) => {
-      
-
-      const new_user_key = Firebase.database().ref('users/' + user.uid).set({
-        username: this.state.name,
+      user_data: {
+        name: this.state.name,
+        displayName: this.state.name,
         occupation: this.state.occupation,
         salary: this.state.salary,
         number_of_siblings: this.state.number_of_siblings,
         birth_order: this.state.birth_order,
         facebook_platform_data: this.state.facebook_platform_data,
-        google_platform_data: this.state.google_platform_data
-      })
-  
-      const new_goal_key = Firebase.database().ref('users/' + user.uid).child('goals').push().key
-      const user_goal_info = {}
-      const updates = {}
-  
-  
-      user_goal_info.goal = this.state.goal
-      user_goal_info.milestone = this.state.milestone
-      user_goal_info.commitment_level = this.state.commitment_level
-      user_goal_info.meta_goal_intent = this.state.meta_goal_intent
-      user_goal_info.success_track = this.state.success_track
-      user_goal_info.free_time = this.state.free_time
-      user_goal_info.education_level = this.state.education_level
-      user_goal_info.success_track = this.state.success_track
-  
-  
-      Firebase.database().ref('users/' + user.uid + '/goals/' + new_goal_key).set({
-        goal: user_goal_info
-      })
+        google_platform_data: this.state.google_platform_data,
 
-      _this.props.history.push('await-verification')
-
-    }).catch((error) => {
-      console.log(error)
+        user_goal_info: {
+          goal: this.state.goal,
+          milestone: this.state.milestone,
+          commitment_level: this.state.commitment_level,
+          meta_goal_intent: this.state.meta_goal_intent,
+          success_track: this.state.success_track,
+          free_time: this.state.free_time,
+          education_level: this.state.education_level,
+          success_track: this.state.success_track
+        }
+      }
+     
     })
-    
-
-  
-
   }
   handleName(e) {
     e.preventDefault()
