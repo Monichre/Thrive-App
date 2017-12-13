@@ -71,7 +71,7 @@ export default class SpeechInterface extends Component {
             return (
                 <div>
                     <div id="mic__container"  
-                        className={css_class}
+                        className='dashboard__button'
                         onClick={this.displayActiveListen.bind(this)}>
 
                         <img style={icon_style } src="/img/mic.svg" alt=""/>

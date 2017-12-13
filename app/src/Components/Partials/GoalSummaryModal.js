@@ -24,14 +24,19 @@ export default class GoalSummaryModal extends Component {
         const modal_style = {
             display: this.props.displayModal ? 'block' : 'none',
         }
+        console.log(this.props.goal)
         return (
             <div className={`modal`} style={modal_style}>
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
+                            <h2>Goal: {this.props.goal.goal ? this.props.goal.goal.user_goal_info.goal : ''}</h2>
+                            <h5 className="card-title">{this.props.goal.goal ? this.props.goal.goal.user_goal_info.meta_goal_intent : ''}</h5>
+                            <h5 className="card-title">{this.props.goal.goal ? this.props.goal.goal.user_goal_info.free_time : ''}</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.handleCloseModal.bind(this)}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
+                            <br />
                         </div>
                         <div className="modal-body">
                             <div className="card">

@@ -255,11 +255,16 @@ body {
   bottom: 20px;
   left: 20px;
 }
-.listen__active {
-  background-color: #fff;
-  border-radius: 50%;
-  padding: 20px;
-  border: 1px solid lightskyblue;
+.dashboard__button {
+      /* background-color: #fff; */
+      border-radius: 50%;
+      padding: 20px;
+      box-shadow: 2px 2px 2px grey;
+      border: 1px solid lightskyblue;
+      transition: all .4s;
+}
+.dashboard__button:hover {
+  box-shadow: 5px 5px 5px grey;
 }
 
 /* SHADER */

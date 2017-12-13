@@ -163,7 +163,7 @@ export default class ThriveBot extends Component {
         return (
                 
                     <div id="ThriveBot">
-                        <img src="/img/bot.svg" alt="" style={chat_icon_style} onClick={this.revealChatBot.bind(this)}/>
+                        <img src="/img/bot.svg" alt="" style={chat_icon_style} onClick={this.revealChatBot.bind(this)} className="dashboard__button"/>
                         <div className="ThriveBot__inner" style={chat_hideOrShow}>
 
                             <Messages messages={this.state.messages} />

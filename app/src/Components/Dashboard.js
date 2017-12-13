@@ -27,7 +27,8 @@ export default class Dashboard extends Component {
         this.state = {
             current_user: null,
             launchPersis: false,
-            launchModal: false
+            launchModal: false,
+            currentGoal: {}
         }
     }
 
@@ -94,9 +95,10 @@ export default class Dashboard extends Component {
             current_user: current_user
         })
     }
-    launchGoalSummary() {
+    launchGoalSummary(goal) {
         this.setState({
-            launchModal: true
+            launchModal: true,
+            currentGoal: goal
         })
     }
     renderUserGoals() {
@@ -108,7 +110,7 @@ export default class Dashboard extends Component {
                             <h3 className="card-title">{goal.goal.user_goal_info.goal}</h3>
                             <p className="card-text">{goal.goal.user_goal_info.meta_goal_intent}</p>
                             <p className="card-text">{goal.goal.user_goal_info.free_time}</p>
-                            <button className="btn btn-primary" onClick={this.launchGoalSummary.bind(this)}>View Progress</button>
+                            <button className="btn btn-primary" onClick={this.launchGoalSummary.bind(this, goal)}>View Progress</button>
                         </div>
                     </div>
                 </div>
@@ -144,16 +146,18 @@ export default class Dashboard extends Component {
         
         return (
             <div id="Dashboard">
-                <GoalSummaryModal displayModal={this.state.launchModal} handleCloseModal={this.handleCloseModal.bind(this)}/>
+                
+                <GoalSummaryModal displayModal={this.state.launchModal} goal={this.state.currentGoal} handleCloseModal={this.handleCloseModal.bind(this)}/>
                 <div id="st-container" className="st-container">
                     <SideBar />
                         <div className="st-content">
-                            
+                            <Particle />
                             <div className="st-content-inner">
                                 <div className="main clearfix">
-                                    <div id="st-trigger-effects" className="dashboard__menu">
+                                    <div id="st-trigger-effects" className="dashboard__menu dashboard__button">
                                         <span className="menu__trigger" data-effect="st-effect-12"><img style={icon_style} src="/img/dashboard-f.svg" alt="" /></span>
                                     </div>
+                                    
                                     <div className="goal__container container">
                                         <div className="row">
                                             {this.renderUserGoals()}
