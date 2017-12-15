@@ -1,14 +1,23 @@
+import React, {Component} from 'react'
+import FitnessTrack from './Components/Tracks/FitnessTrack'
+import FinanceTrack from './Components/Tracks/FinanceTrack'
+import SkillTrack from './Components/Tracks/SkillTrack'
+
 export const Constants = {
-    signInWithFacebook: () => {
-        const provider = new Firebase.auth.FacebookAuthProvider()
-        provider.addScope('public_profile, email')
-        provider.setCustomParameters({
-          'display': 'popup'
-        })
-    
-        firebase.auth().signInWithPopup(provider).then((result) => {
-          const token = result.credential.acessToken
-          const user = result.user
-        })
+    renderProperTrack: (track, trackSubmit) => {
+      if(track === 'fitnessTrack') {
+
+        return <FitnessTrack submitSuccessTrack={trackSubmit} />
+
+      } else if(track === 'financeTrack') {
+
+        return <FinanceTrack submitSuccessTrack={trackSubmit} />
+
+      }
+      else if(track === 'skillTrack') {
+
+        return <SkillTrack submitSuccessTrack={trackSubmit} />
+
+      }
     }
 }

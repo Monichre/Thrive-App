@@ -106,10 +106,14 @@ export default class ThriveBot extends Component {
     }
     createTextMessage(content, from) {
         const messages = []
+        const icon = from === 'User' ? this.props.data.current_user.facebook_platform_data.photo : '/img/bot.svg'
         const text =  (
             <li className="Message Inbound">
                 <div className={`Message-Content ${from}_text`}>
+                    <div className="chip">
+                        <img src={icon} alt="Text Sender Photo"/>
                         {content}
+                    </div>
                 </div>
             </li>
         )
@@ -163,7 +167,8 @@ export default class ThriveBot extends Component {
         return (
                 
                     <div id="ThriveBot">
-                        <img src="/img/bot.svg" alt="" style={chat_icon_style} onClick={this.revealChatBot.bind(this)} className="dashboard__button"/>
+                        <a className="btn-floating btn-large waves-effect waves-light red" style={chat_icon_style} onClick={this.revealChatBot.bind(this)}><i className="material-icons">keyboard_voice</i></a>
+                        
                         <div className="ThriveBot__inner" style={chat_hideOrShow}>
 
                             <Messages messages={this.state.messages} />

@@ -168,13 +168,13 @@ export default class Welcome extends Component {
 		
 		return (
 			<div className="Welcome">
-				<div className="Welcome__inner">
+				<div className="container">
 					<Modal routedPath={this.props.match.path}/>
-					<nav className="navbar">
-						<ul>
+					<nav className="navbar transparent">
+						<ul className="right">
 							<li>
 								<div className="search-wrap">
-									<div id="btn-search" className="btn btn--search" onClick={this.openLogin.bind(this)}> Login </div>
+									<div id="btn-search" style={{backgroundColor: '#74f1fc'}} className="waves-effect waves-light btn btn--search" onClick={this.openLogin.bind(this)}> Login </div>
 								</div>
 							</li>
 						</ul>

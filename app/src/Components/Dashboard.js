@@ -43,7 +43,7 @@ export default class Dashboard extends Component {
     init() {
 
         var container = document.getElementById('st-container'),
-            buttons = Array.prototype.slice.call(document.querySelectorAll('#st-trigger-effects > .menu__trigger')),
+            buttons = Array.prototype.slice.call(document.querySelectorAll('#st-trigger-effects .menu__trigger')),
             // event type (if mobile use touch events)
             eventtype = this.mobilecheck() ? 'touchstart' : 'click',
             resetMenu = function () {
@@ -104,13 +104,17 @@ export default class Dashboard extends Component {
     renderUserGoals() {
         if (this.state.current_user) {
             return  this.props.data.current_user.goals.map((goal) => (
-                <div className="col-md-3">
-                    <div className="card">
-                        <div className="card-body">
-                            <h3 className="card-title">{goal.goal.user_goal_info.goal}</h3>
-                            <p className="card-text">{goal.goal.user_goal_info.meta_goal_intent}</p>
-                            <p className="card-text">{goal.goal.user_goal_info.free_time}</p>
-                            <button className="btn btn-primary" onClick={this.launchGoalSummary.bind(this, goal)}>View Progress</button>
+                <div className="col s12 m4">
+                    <div className="card horizontal">
+                        <div className="card-stacked">
+                            <div className="card-content">
+                                <h3 className="card-title">{goal.goal.user_goal_info.goal}</h3>
+                                <p className="card-text">{goal.goal.user_goal_info.meta_goal_intent}</p>
+                                <p className="card-text">{goal.goal.user_goal_info.free_time}</p>
+                            </div>
+                            <div className="card-action">
+                                <button className="btn-floating btn-medium waves-effect waves-light red" onClick={this.launchGoalSummary.bind(this, goal)}><i className="material-icons">info_outline</i> </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,23 +153,31 @@ export default class Dashboard extends Component {
                 
                 <GoalSummaryModal displayModal={this.state.launchModal} goal={this.state.currentGoal} handleCloseModal={this.handleCloseModal.bind(this)}/>
                 <div id="st-container" className="st-container">
-                    <SideBar />
                         <div className="st-content">
                             <Particle />
                             <div className="st-content-inner">
                                 <div className="main clearfix">
-                                    <div id="st-trigger-effects" className="dashboard__menu dashboard__button">
-                                        <span className="menu__trigger" data-effect="st-effect-12"><img style={icon_style} src="/img/dashboard-f.svg" alt="" /></span>
-                                    </div>
-                                    
-                                    <div className="goal__container container">
-                                        <div className="row">
-                                            {this.renderUserGoals()}
+                                
+                                    <SideBar />
+                                
+                                    <nav className="transparent">
+                                        <div className="nav-wrapper">
+                                            <ul className="right hide-on-med-and-down" id="st-trigger-effects">
+                                                <li><a ><i className="material-icons">search</i></a></li>
+                                                <SpeechInterface summonPersis={this.handlePersisSummons.bind(this)}/>
+                                                <li><a ><i className="material-icons">view_module</i></a></li>
+                                                <li><a ><i data-effect="st-effect-12" className="material-icons menu__trigger">more_vert</i></a></li>
+                                            </ul>
                                         </div>
-                                    </div>
-
-                                    <div className="speechInterface__container">
-                                        <SpeechInterface summonPersis={this.handlePersisSummons.bind(this)}/>
+                                    </nav>
+                                    
+                                    
+                                    <div className="goal__container row">
+                                        <div className="col m6 offset-m6">
+                                            <div className="row">
+                                                {this.renderUserGoals()}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="chatbot__container">
                                         <ThriveBot data={this.props.data} launchPersis={launchPersis}/>

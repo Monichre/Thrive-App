@@ -69,14 +69,11 @@ export default class SpeechInterface extends Component {
                 width: '20px'
             }
             return (
-                <div>
-                    <div id="mic__container"  
-                        className='dashboard__button'
-                        onClick={this.displayActiveListen.bind(this)}>
-
-                        <img style={icon_style } src="/img/mic.svg" alt=""/>
-                    </div>
-                </div>
+                <li>
+                    <a onClick={this.displayActiveListen.bind(this)}><i className="material-icons">record_voice_over</i>
+                    </a>
+                </li>
+       
             )
         }
 }
